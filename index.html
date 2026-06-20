@@ -1,0 +1,1776 @@
+  <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P2 LOG Soluções — Gestão Administrativa para Transportadoras</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #D4A017;
+    --gold-light: #e8b82a;
+    --gold-pale: rgba(212, 160, 23, 0.12);
+    --black: #0a0a0a;
+    --dark: #111111;
+    --dark2: #1a1a1a;
+    --dark3: #222222;
+    --white: #f5f3ef;
+    --gray: #8a8a8a;
+    --gray-light: #3a3a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Sora', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+    transition: all 0.3s ease;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--black);
+    letter-spacing: -1px;
+  }
+
+  .nav-logo-text {
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--white);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-logo-text span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    padding: 10px 28px;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .nav-cta:hover {
+    background: var(--gold);
+    color: var(--black);
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 120px 60px 80px;
+    overflow: hidden;
+  }
+
+  .hero-bg-lines {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(212,160,23,0.04) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(212,160,23,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .hero-bg-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(212,160,23,0.08) 0%, transparent 70%);
+    top: 50%;
+    right: -100px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 28px;
+    color: var(--white);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--gray);
+    max-width: 520px;
+    margin-bottom: 48px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 16px 40px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    padding: 15px 40px;
+    border: 1px solid rgba(212,160,23,0.4);
+    color: var(--white);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .hero-metrics {
+    position: absolute;
+    right: 60px;
+    bottom: 80px;
+    display: flex;
+    gap: 60px;
+    z-index: 2;
+  }
+
+  .metric {
+    text-align: right;
+  }
+
+  .metric-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 6px;
+    display: block;
+  }
+
+  /* ── LOGOS STRIP ── */
+  .logos-strip {
+    padding: 28px 60px;
+    border-top: 1px solid var(--gray-light);
+    border-bottom: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--dark);
+  }
+
+  .logos-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .logos-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--gray-light);
+    flex-shrink: 0;
+  }
+
+  .logos-track {
+    display: flex;
+    gap: 48px;
+    overflow: hidden;
+    flex: 1;
+    mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  }
+
+  .logos-items {
+    display: flex;
+    gap: 48px;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .logos-items span {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(138,138,138,0.5);
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 120px 60px; }
+
+  .section-header {
+    margin-bottom: 72px;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--white);
+  }
+
+  h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* ── SOBRE ── */
+  #sobre {
+    background: var(--dark);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .sobre-visual {
+    position: relative;
+  }
+
+  .sobre-card {
+    background: var(--dark2);
+    border: 1px solid var(--gray-light);
+    padding: 48px;
+    position: relative;
+  }
+
+  .sobre-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .sobre-card-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+
+  .sobre-card-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .author-avatar {
+    width: 48px;
+    height: 48px;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--black);
+  }
+
+  .author-info strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .author-info span {
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  .sobre-floating-badge {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 20px 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .sobre-text p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 20px;
+  }
+
+  .sobre-text p strong { color: var(--white); font-weight: 600; }
+
+  .sobre-pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .pillar {
+    border: 1px solid var(--gray-light);
+    padding: 20px;
+    transition: border-color 0.3s;
+  }
+
+  .pillar:hover { border-color: var(--gold); }
+
+  .pillar-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .pillar strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .pillar span {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  /* ── SERVIÇOS ── */
+  #servicos { background: var(--black); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--gray-light);
+    border: 1px solid var(--gray-light);
+  }
+
+  .service-card {
+    background: var(--black);
+    padding: 52px 40px;
+    transition: background 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width 0.4s;
+  }
+
+  .service-card:hover { background: var(--dark); }
+  .service-card:hover::after { width: 100%; }
+
+  .service-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(212,160,23,0.08);
+    line-height: 1;
+    margin-bottom: -20px;
+    display: block;
+    transition: color 0.4s;
+  }
+
+  .service-card:hover .service-num { color: rgba(212,160,23,0.15); }
+
+  .service-icon {
+    width: 52px;
+    height: 52px;
+    border: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 24px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .service-card:hover .service-icon {
+    border-color: var(--gold);
+    background: var(--gold-pale);
+  }
+
+  .service-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 28px;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(212,160,23,0.3);
+    padding: 4px 12px;
+  }
+
+  /* ── PRODUTO DESTAQUE (GiroDrive) ── */
+  #produto {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #produto::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(212,160,23,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .produto-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .produto-mockup {
+    background: var(--dark2);
+    border: 1px solid var(--gray-light);
+    border-top: 3px solid var(--gold);
+    padding: 40px;
+    position: relative;
+  }
+
+  .mockup-topbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--gray-light);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .mockup-title {
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  .mockup-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .mockup-metric {
+    background: var(--dark3);
+    padding: 16px;
+    border: 1px solid rgba(212,160,23,0.1);
+    text-align: center;
+  }
+
+  .mockup-metric-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+
+  .mockup-metric-label {
+    font-size: 10px;
+    color: var(--gray);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .mockup-bar-section { margin-top: 4px; }
+
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+
+  .bar {
+    height: 6px;
+    background: var(--gray-light);
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    animation: barGrow 1.5s ease forwards;
+  }
+
+  @keyframes barGrow {
+    from { width: 0; }
+  }
+
+  .produto-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-pale);
+    border: 1px solid rgba(212,160,23,0.3);
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .produto-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+
+  .produto-desc strong { color: var(--white); font-weight: 600; }
+
+  .pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 36px;
+  }
+
+  .pricing-card {
+    border: 1px solid var(--gray-light);
+    padding: 20px 16px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .pricing-card.highlight {
+    border-color: var(--gold);
+    background: var(--gold-pale);
+  }
+
+  .pricing-card.highlight::before {
+    content: 'POPULAR';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: var(--black);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 3px 10px;
+  }
+
+  .pricing-plan {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pricing-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--white);
+    display: block;
+  }
+
+  .pricing-value small {
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--gray);
+  }
+
+  .pricing-card.highlight .pricing-value { color: var(--gold); }
+
+  /* ── PROCESSO ── */
+  #processo { background: var(--black); }
+
+  .processo-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .processo-steps::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 10%;
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  .step {
+    padding: 0 28px;
+    text-align: center;
+    position: relative;
+  }
+
+  .step-num {
+    width: 72px;
+    height: 72px;
+    border: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--gold);
+    background: var(--black);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s;
+  }
+
+  .step:hover .step-num {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--gray);
+  }
+
+  /* ── CTA FAIXA ── */
+  #cta-band {
+    background: var(--gold);
+    padding: 80px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .cta-band-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    color: var(--black);
+    margin-bottom: 12px;
+  }
+
+  .cta-band-text p {
+    font-size: 16px;
+    color: rgba(0,0,0,0.6);
+    max-width: 480px;
+  }
+
+  .btn-dark {
+    padding: 18px 48px;
+    background: var(--black);
+    color: var(--gold);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-dark:hover {
+    background: var(--dark2);
+    transform: translateY(-2px);
+  }
+
+  /* ── DEPOIMENTOS ── */
+  #depoimentos { background: var(--dark); }
+
+  .depo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .depo-card {
+    background: var(--black);
+    border: 1px solid var(--gray-light);
+    padding: 40px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .depo-card:hover { border-color: rgba(212,160,23,0.4); }
+
+  .depo-quote-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.2;
+    line-height: 1;
+    margin-bottom: -28px;
+  }
+
+  .depo-text {
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+
+  .depo-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .depo-avatar {
+    width: 44px;
+    height: 44px;
+    background: var(--gold-pale);
+    border: 1px solid rgba(212,160,23,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .depo-author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    display: block;
+  }
+
+  .depo-author-role {
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  .depo-stars {
+    color: var(--gold);
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ── CONTATO ── */
+  #contato {
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contato-info h2 { margin-bottom: 24px; }
+
+  .contato-info p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 40px;
+  }
+
+  .contato-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contato-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .contato-item-icon {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .contato-item strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .contato-item span {
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: var(--dark2);
+    border: 1px solid var(--gray-light);
+    color: var(--white);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+
+  .form-group select option { background: var(--dark2); }
+
+  .form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--gray-light);
+    padding: 60px 60px 36px;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-top: 20px;
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-col ul li a {
+    font-size: 13px;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-col ul li a:hover { color: var(--white); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--gray-light);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  .footer-bottom span { color: var(--gold); }
+
+  .social-links {
+    display: flex;
+    gap: 16px;
+  }
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--gray);
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .social-link:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── ANIMAÇÕES DE ENTRADA ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    nav { padding: 18px 28px; }
+    .nav-links { display: none; }
+    #hero { padding: 120px 28px 80px; }
+    .hero-metrics { right: 28px; bottom: 40px; gap: 32px; }
+    .metric-value { font-size: 28px; }
+    section { padding: 80px 28px; }
+    #sobre, #contato, .produto-inner { grid-template-columns: 1fr; gap: 48px; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-cards { grid-template-columns: 1fr; }
+    .processo-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .processo-steps::before { display: none; }
+    .depo-grid { grid-template-columns: 1fr; }
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .logos-strip { padding: 20px 28px; }
+    #cta-band { flex-direction: column; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">P²</div>
+    <span class="nav-logo-text">P2 LOG <span>Soluções</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#processo">Como funciona</a></li>
+    <li><a href="#depoimentos">Resultados</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="#contato" class="nav-cta">Falar com especialista</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-lines"></div>
+  <div class="hero-bg-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Consultoria Especializada em Logística</div>
+    <h1>
+      Gestão que<br>
+      <em>transforma</em><br>
+      transportadoras.
+    </h1>
+    <p class="hero-sub">
+      Diagnóstico, processos, tecnologia e dashboards para transportadoras que querem crescer com controle e eficiência operacional real.
+    </p>
+    <div class="hero-actions">
+      <a href="#contato" class="btn-primary">Diagnóstico gratuito</a>
+      <a href="#servicos" class="btn-ghost">Ver soluções →</a>
+    </div>
+  </div>
+
+  <div class="hero-metrics">
+    <div class="metric">
+      <span class="metric-value">+40</span>
+      <span class="metric-label">Clientes atendidos</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">8+</span>
+      <span class="metric-label">Anos de mercado</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">GO</span>
+      <span class="metric-label">Rio Verde · Brasil</span>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos-strip">
+  <span class="logos-label">Integração com</span>
+  <div class="logos-divider"></div>
+  <div class="logos-track">
+    <div class="logos-items">
+      <span>ATUA · NStech</span>
+      <span>Fretebras</span>
+      <span>ANTT</span>
+      <span>SEFAZ</span>
+      <span>OnRota</span>
+      <span>Z-API WhatsApp</span>
+      <span>Microsoft Excel</span>
+      <span>Google Sheets</span>
+      <span>ATUA · NStech</span>
+      <span>Fretebras</span>
+      <span>ANTT</span>
+      <span>SEFAZ</span>
+      <span>OnRota</span>
+      <span>Z-API WhatsApp</span>
+      <span>Microsoft Excel</span>
+      <span>Google Sheets</span>
+    </div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-visual fade-in">
+    <div class="sobre-card">
+      <div class="sobre-card-quote">
+        "O problema da maioria das transportadoras não é falta de carga — é falta de gestão. Com os dados certos, os resultados aparecem."
+      </div>
+      <div class="sobre-card-author">
+        <div class="author-avatar">P</div>
+        <div class="author-info">
+          <strong>Pablo Praun</strong>
+          <span>Fundador · P2 LOG Soluções</span>
+        </div>
+      </div>
+    </div>
+    <div class="sobre-floating-badge">
+      Fundado em<br>2025<br>Rio Verde · GO
+    </div>
+  </div>
+
+  <div class="sobre-text fade-in">
+    <div class="section-eyebrow">Sobre a P2 LOG</div>
+    <h2>Especialistas no <em>DNA</em> da transportadora.</h2>
+
+    <p style="margin-top:28px">
+      A P2 LOG Soluções nasceu da experiência prática dentro das operações. <strong>Pablo Praun</strong>, fundador e Gerente Administrativo com trajetória em uma das maiores transportadoras do Centro-Oeste, criou uma empresa focada exclusivamente em resolver os problemas reais do setor.
+    </p>
+    <p>
+      Combinamos <strong>consultoria administrativa</strong>, criação de <strong>dashboards e indicadores</strong>, e desenvolvimento de <strong>produtos próprios</strong> para transportadoras de médio porte que precisam de controle, sem burocracia.
+    </p>
+
+    <div class="sobre-pillars">
+      <div class="pillar">
+        <span class="pillar-icon">📊</span>
+        <strong>Inteligência de Dados</strong>
+        <span>Dashboards que mostram o que realmente importa</span>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">⚙️</span>
+        <strong>Processos Operacionais</strong>
+        <span>Mapeamento e otimização de fluxos</span>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">🚛</span>
+        <strong>Gestão de Motoristas</strong>
+        <span>Plataformas de controle e onboarding</span>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">💡</span>
+        <strong>Mentoria Executiva</strong>
+        <span>Para gestores que querem evoluir</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">O que entregamos</div>
+    <h2>Soluções <em>completas</em> para quem move o Brasil.</h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card fade-in">
+      <span class="service-num">01</span>
+      <div class="service-icon">🎓</div>
+      <div class="service-title">Mentoria para Gestores</div>
+      <p class="service-desc">Acompanhamento individual para gerentes, diretores e sócios de transportadoras. Desenvolvemos visão estratégica, tomada de decisão baseada em dados e liderança operacional de alta performance.</p>
+      <div class="service-tags">
+        <span class="tag">1:1</span>
+        <span class="tag">Estratégia</span>
+        <span class="tag">Liderança</span>
+        <span class="tag">Resultados</span>
+      </div>
+    </div>
+
+    <div class="service-card fade-in">
+      <span class="service-num">02</span>
+      <div class="service-icon">🚛</div>
+      <div class="service-title">Plataforma de Onboard de Motoristas</div>
+      <p class="service-desc">Sistema completo de admissão e gestão de motoristas: cadastro digital, histórico de viagens, níveis de experiência, comunicação via WhatsApp e painel administrativo com upload de planilhas ATUA.</p>
+      <div class="service-tags">
+        <span class="tag">Intranet</span>
+        <span class="tag">Z-API</span>
+        <span class="tag">ATUA</span>
+        <span class="tag">WhatsApp Bot</span>
+      </div>
+    </div>
+
+    <div class="service-card fade-in">
+      <span class="service-num">03</span>
+      <div class="service-icon">⚡</div>
+      <div class="service-title">Cadastro Rápido de Motoristas</div>
+      <p class="service-desc">Fluxo otimizado de cadastro que reduz o tempo de admissão de horas para minutos. Coleta de dados, documentação e validação de CNH e RNTRC integrados em um único processo digital.</p>
+      <div class="service-tags">
+        <span class="tag">Biometria</span>
+        <span class="tag">CNH</span>
+        <span class="tag">RNTRC</span>
+        <span class="tag">Validação</span>
+      </div>
+    </div>
+
+    <div class="service-card fade-in">
+      <span class="service-num">04</span>
+      <div class="service-icon">🛡️</div>
+      <div class="service-title">Gerenciadora de Riscos</div>
+      <p class="service-desc">Análise e controle de risco operacional para sua frota: monitoramento de ocorrências, histórico de motoristas, alertas de vencimento de documentos e score de confiabilidade por perfil.</p>
+      <div class="service-tags">
+        <span class="tag">Score</span>
+        <span class="tag">Ocorrências</span>
+        <span class="tag">Compliance</span>
+        <span class="tag">ANTT</span>
+      </div>
+    </div>
+
+    <div class="service-card fade-in">
+      <span class="service-num">05</span>
+      <div class="service-icon">🔍</div>
+      <div class="service-title">Consulta de Motoristas</div>
+      <p class="service-desc">Serviço de pesquisa e validação de histórico de motoristas para transportadoras. Antes de contratar, consulte reputação, ocorrências anteriores e conformidade documental.</p>
+      <div class="service-tags">
+        <span class="tag">Background Check</span>
+        <span class="tag">Histórico</span>
+        <span class="tag">Due Diligence</span>
+      </div>
+    </div>
+
+    <div class="service-card fade-in">
+      <span class="service-num">06</span>
+      <div class="service-icon">🗺️</div>
+      <div class="service-title">Base de Referências de Viagens</div>
+      <p class="service-desc">Banco de dados com referências de rotas, fretes praticados, pontos de parada, postos e informações estratégicas para precificação e planejamento operacional de viagens.</p>
+      <div class="service-tags">
+        <span class="tag">Rotas</span>
+        <span class="tag">Precificação</span>
+        <span class="tag">Inteligência</span>
+        <span class="tag">Fretebras</span>
+      </div>
+    </div>
+
+    <div class="service-card fade-in">
+      <span class="service-num">07</span>
+      <div class="service-icon">📊</div>
+      <div class="service-title">Planilhas de Gestão</div>
+      <p class="service-desc">Ferramentas prontas e personalizadas para gestão de frota e controle de caixa: modelos em Excel com fórmulas, dashboards visuais, DRE simplificado e controle de manutenção preventiva.</p>
+      <div class="service-tags">
+        <span class="tag">Gestão de Frota</span>
+        <span class="tag">Fluxo de Caixa</span>
+        <span class="tag">Excel</span>
+        <span class="tag">Dashboard</span>
+      </div>
+    </div>
+
+    <div class="service-card fade-in">
+      <span class="service-num">08</span>
+      <div class="service-icon">💻</div>
+      <div class="service-title">Especialização no Sistema ATUA</div>
+      <p class="service-desc">Treinamento, implantação e suporte para equipes que utilizam o sistema ATUA da NStech. Extraia o máximo do ERP: relatórios, integrações, rotinas fiscais e CT-e de forma eficiente.</p>
+      <div class="service-tags">
+        <span class="tag">NStech</span>
+        <span class="tag">ATUA</span>
+        <span class="tag">CT-e</span>
+        <span class="tag">Treinamento</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section id="produto" style="background:var(--dark);">
+  <div class="section-header fade-in" style="text-align:center;margin-bottom:60px">
+    <div class="section-eyebrow" style="justify-content:center">Por que a P2 LOG</div>
+    <h2>Experiência de dentro.<br><em>Visão de fora.</em></h2>
+    <p style="color:var(--gray);font-size:16px;max-width:560px;margin:20px auto 0;font-weight:300;line-height:1.7">Nosso fundador construiu sua trajetória dentro de uma das maiores transportadoras do Centro-Oeste — e sabe exatamente onde as operações travam.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1100px;margin:0 auto">
+
+    <div class="fade-in" style="background:var(--black);border:1px solid var(--gray-light);padding:44px 36px;transition:border-color 0.3s" onmouseover="this.style.borderColor='rgba(212,160,23,0.5)'" onmouseout="this.style.borderColor='var(--gray-light)'">
+      <div style="font-size:36px;margin-bottom:20px">🎯</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:12px">Especialização setorial</div>
+      <p style="font-size:14px;color:var(--gray);line-height:1.7;font-weight:300">Não somos consultoria genérica. Cada solução foi desenvolvida especificamente para o contexto das transportadoras brasileiras — do ATUA ao CT-e.</p>
+    </div>
+
+    <div class="fade-in" style="background:var(--black);border:1px solid var(--gold);padding:44px 36px;position:relative">
+      <div style="position:absolute;top:-1px;left:0;right:0;height:3px;background:var(--gold)"></div>
+      <div style="font-size:36px;margin-bottom:20px">⚡</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:12px">Entrega rápida e prática</div>
+      <p style="font-size:14px;color:var(--gray);line-height:1.7;font-weight:300">Sem meses de diagnóstico sem resultado. Entregamos ferramentas funcionando em dias — planilhas, plataformas e processos prontos para usar.</p>
+    </div>
+
+    <div class="fade-in" style="background:var(--black);border:1px solid var(--gray-light);padding:44px 36px;transition:border-color 0.3s" onmouseover="this.style.borderColor='rgba(212,160,23,0.5)'" onmouseout="this.style.borderColor='var(--gray-light)'">
+      <div style="font-size:36px;margin-bottom:20px">🤝</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:12px">Parceria de longo prazo</div>
+      <p style="font-size:14px;color:var(--gray);line-height:1.7;font-weight:300">Não desaparecemos após a entrega. Acompanhamos os indicadores, ajustamos as ferramentas e evoluímos junto com o seu negócio.</p>
+    </div>
+
+  </div>
+
+  <!-- Números -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray-light);border:1px solid var(--gray-light);margin-top:60px">
+    <div class="fade-in" style="background:var(--black);padding:40px;text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">8+</div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Anos de experiência</div>
+    </div>
+    <div class="fade-in" style="background:var(--black);padding:40px;text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">+6k</div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Motoristas gerenciados</div>
+    </div>
+    <div class="fade-in" style="background:var(--black);padding:40px;text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">100%</div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Foco em logística</div>
+    </div>
+    <div class="fade-in" style="background:var(--black);padding:40px;text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">GO</div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Centro-Oeste · Brasil</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section id="processo">
+  <div class="section-header fade-in" style="text-align:center">
+    <div class="section-eyebrow" style="justify-content:center">Como trabalhamos</div>
+    <h2>Do diagnóstico à <em>transformação.</em></h2>
+  </div>
+
+  <div class="processo-steps">
+    <div class="step fade-in">
+      <div class="step-num">01</div>
+      <div class="step-title">Diagnóstico</div>
+      <p class="step-desc">Mapeamos todos os processos, dados e gargalos da operação. Sem julgamentos — apenas fatos.</p>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">02</div>
+      <div class="step-title">Plano de Ação</div>
+      <p class="step-desc">Entregamos um roadmap priorizado com quick wins (30 dias) e melhorias estruturais (90-180 dias).</p>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">03</div>
+      <div class="step-title">Implementação</div>
+      <p class="step-desc">Executamos junto ao seu time — dashboards, processos, ferramentas e treinamentos incluídos.</p>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">04</div>
+      <div class="step-title">Acompanhamento</div>
+      <p class="step-desc">Monitoramos indicadores e ajustamos a rota. Resultado sustentável, não pontual.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div id="cta-band">
+  <div class="cta-band-text">
+    <h2>Pronto para crescer com controle?</h2>
+    <p>Agende um diagnóstico gratuito de 30 minutos e descubra o que está travando o crescimento da sua transportadora.</p>
+  </div>
+  <a href="#contato" class="btn-dark">Agendar diagnóstico →</a>
+</div>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Quem já evoluiu</div>
+    <h2>Resultados <em>reais</em>, gestores satisfeitos.</h2>
+  </div>
+
+  <div class="depo-grid">
+    <div class="depo-card fade-in">
+      <div class="depo-quote-mark">"</div>
+      <p class="depo-text">Em 60 dias, a P2 LOG organizou nosso financeiro do zero. Hoje temos dashboards que mostram em tempo real se estamos lucrando ou prejudicando a operação.</p>
+      <div class="depo-author">
+        <div class="depo-avatar">M</div>
+        <div>
+          <span class="depo-author-name">Marcos A.</span>
+          <span class="depo-author-role">Diretor · Transportadora MT Sul</span>
+          <span class="depo-stars">★★★★★</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="depo-card fade-in">
+      <div class="depo-quote-mark">"</div>
+      <p class="depo-text">A plataforma de motoristas que o Pablo desenvolveu para nós reduziu o tempo de cadastro de 2 horas para 15 minutos. Simples e funcional.</p>
+      <div class="depo-author">
+        <div class="depo-avatar">R</div>
+        <div>
+          <span class="depo-author-name">Roberto C.</span>
+          <span class="depo-author-role">Gerente Operacional · LogRota GO</span>
+          <span class="depo-stars">★★★★★</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="depo-card fade-in">
+      <div class="depo-quote-mark">"</div>
+      <p class="depo-text">A mentoria me ajudou a sair do operacional e começar a pensar como empresário. Hoje tomo decisões baseadas em dados, não em feeling.</p>
+      <div class="depo-author">
+        <div class="depo-avatar">F</div>
+        <div>
+          <span class="depo-author-name">Fernanda B.</span>
+          <span class="depo-author-role">Proprietária · FB Cargas</span>
+          <span class="depo-stars">★★★★★</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-info fade-in">
+    <div class="section-eyebrow">Fale conosco</div>
+    <h2>Vamos <em>conversar</em> sobre sua operação.</h2>
+    <p>Nenhuma transportadora é igual. Por isso começamos sempre com uma conversa — sem script, sem pressão. Apenas entendendo o seu momento.</p>
+
+    <div class="contato-items">
+      <div class="contato-item">
+        <div class="contato-item-icon">📍</div>
+        <div>
+          <strong>Localização</strong>
+          <span>Rio Verde, Goiás — Brasil</span>
+        </div>
+      </div>
+      <div class="contato-item">
+        <div class="contato-item-icon">💬</div>
+        <div>
+          <strong>WhatsApp</strong>
+          <span>(64) 9 9999-0000</span>
+        </div>
+      </div>
+      <div class="contato-item">
+        <div class="contato-item-icon">📧</div>
+        <div>
+          <strong>E-mail</strong>
+          <span>contato@p2log.com.br</span>
+        </div>
+      </div>
+      <div class="contato-item">
+        <div class="contato-item-icon">🔗</div>
+        <div>
+          <strong>LinkedIn</strong>
+          <span>linkedin.com/in/pablopraun</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fade-in">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome completo</label>
+        <input type="text" placeholder="Seu nome">
+      </div>
+      <div class="form-group">
+        <label>WhatsApp</label>
+        <input type="tel" placeholder="(00) 00000-0000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>E-mail</label>
+      <input type="email" placeholder="seuemail@empresa.com.br">
+    </div>
+    <div class="form-group">
+      <label>Nome da transportadora</label>
+      <input type="text" placeholder="Razão social ou nome fantasia">
+    </div>
+    <div class="form-group">
+      <label>Qual é o seu maior desafio?</label>
+      <select>
+        <option value="">Selecione um serviço...</option>
+        <option>Mentoria para Gestores</option>
+        <option>Plataforma de Onboard de Motoristas</option>
+        <option>Cadastro Rápido de Motoristas</option>
+        <option>Gerenciadora de Riscos</option>
+        <option>Consulta de Motoristas</option>
+        <option>Base de Referências de Viagens</option>
+        <option>Planilhas de Gestão (Frota / Caixa)</option>
+        <option>Especialização no Sistema ATUA</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Mensagem (opcional)</label>
+      <textarea placeholder="Conte um pouco sobre sua operação..."></textarea>
+    </div>
+    <button class="btn-primary" style="width:100%;border:none;cursor:pointer;font-size:14px;">
+      Enviar mensagem →
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="nav-logo" style="display:flex;align-items:center;gap:12px">
+        <div class="nav-logo-icon">P²</div>
+        <span class="nav-logo-text">P2 LOG <span>Soluções</span></span>
+      </div>
+      <p>Consultoria administrativa e operacional especializada em transportadoras. Do diagnóstico à transformação digital.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <ul>
+        <li><a href="#">Mentoria para Gestores</a></li>
+        <li><a href="#">Onboard de Motoristas</a></li>
+        <li><a href="#">Cadastro Rápido</a></li>
+        <li><a href="#">Gerenciadora de Riscos</a></li>
+        <li><a href="#">Consulta de Motoristas</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Ferramentas</h4>
+      <ul>
+        <li><a href="#">Base de Referências de Viagens</a></li>
+        <li><a href="#">Planilha de Gestão de Frota</a></li>
+        <li><a href="#">Planilha de Gestão de Caixa</a></li>
+        <li><a href="#">Especialização ATUA · NStech</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="#">Sobre Pablo Praun</a></li>
+        <li><a href="#">Blog · Praun Co.</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Política de Privacidade</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 P2 LOG Soluções. Rio Verde, GO. CNPJ: 00.000.000/0001-00 | <span>Feito com estratégia.</span></p>
+    <div class="social-links">
+      <a href="#" class="social-link" title="LinkedIn">in</a>
+      <a href="#" class="social-link" title="Instagram">ig</a>
+      <a href="#" class="social-link" title="TikTok">tt</a>
+      <a href="#" class="social-link" title="X">𝕏</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.padding = '14px 60px';
+    } else {
+      nav.style.padding = '20px 60px';
+    }
+  });
+</script>
+
+</body>
+</html>
