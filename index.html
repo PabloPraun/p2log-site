@@ -1628,14 +1628,14 @@
         <div class="contato-item-icon">💬</div>
         <div>
           <strong>WhatsApp</strong>
-          <span>(64) 9 9999-0000</span>
+          <span>(62) 9 8118-9378</span>
         </div>
       </div>
       <div class="contato-item">
         <div class="contato-item-icon">📧</div>
         <div>
           <strong>E-mail</strong>
-          <span>contato@p2log.com.br</span>
+          <span>pablo@p2log.com.br</span>
         </div>
       </div>
       <div class="contato-item">
@@ -1648,28 +1648,34 @@
     </div>
   </div>
 
-  <div class="fade-in">
+  <form class="fade-in" action="https://formsubmit.co/pablo@p2log.com.br" method="POST">
+    <!-- Configurações FormSubmit -->
+    <input type="hidden" name="_subject" value="🚛 Novo contato pelo site P2 LOG">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_next" value="https://p2log.com.br">
+
     <div class="form-row">
       <div class="form-group">
         <label>Nome completo</label>
-        <input type="text" placeholder="Seu nome">
+        <input type="text" name="nome" placeholder="Seu nome" required>
       </div>
       <div class="form-group">
         <label>WhatsApp</label>
-        <input type="tel" placeholder="(00) 00000-0000">
+        <input type="tel" name="whatsapp" placeholder="(00) 00000-0000" required>
       </div>
     </div>
     <div class="form-group">
       <label>E-mail</label>
-      <input type="email" placeholder="seuemail@empresa.com.br">
+      <input type="email" name="email" placeholder="seuemail@empresa.com.br">
     </div>
     <div class="form-group">
       <label>Nome da transportadora</label>
-      <input type="text" placeholder="Razão social ou nome fantasia">
+      <input type="text" name="transportadora" placeholder="Razão social ou nome fantasia" required>
     </div>
     <div class="form-group">
       <label>Qual é o seu maior desafio?</label>
-      <select>
+      <select name="servico">
         <option value="">Selecione um serviço...</option>
         <option>Mentoria para Gestores</option>
         <option>Plataforma de Onboard de Motoristas</option>
@@ -1683,12 +1689,12 @@
     </div>
     <div class="form-group">
       <label>Mensagem (opcional)</label>
-      <textarea placeholder="Conte um pouco sobre sua operação..."></textarea>
+      <textarea name="mensagem" placeholder="Conte um pouco sobre sua operação..."></textarea>
     </div>
-    <button class="btn-primary" style="width:100%;border:none;cursor:pointer;font-size:14px;">
+    <button type="submit" class="btn-primary" style="width:100%;border:none;cursor:pointer;font-size:14px;">
       Enviar mensagem →
     </button>
-  </div>
+  </form>
 </section>
 
 <!-- FOOTER -->
