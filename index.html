@@ -30,7 +30,7 @@
     overflow-x: hidden;
   }
 
-  /* ── GRAIN OVERLAY ── */
+  /*  GRAIN OVERLAY  */
   body::before {
     content: '';
     position: fixed;
@@ -41,7 +41,7 @@
     opacity: 0.6;
   }
 
-  /* ── NAV ── */
+  /*  NAV  */
   nav {
     position: fixed;
     top: 0;
@@ -126,7 +126,7 @@
     color: var(--black);
   }
 
-  /* ── HERO ── */
+  /*  HERO  */
   #hero {
     min-height: 100vh;
     display: flex;
@@ -282,7 +282,7 @@
     display: block;
   }
 
-  /* ── LOGOS STRIP ── */
+  /*  LOGOS STRIP  */
   .logos-strip {
     padding: 28px 60px;
     border-top: 1px solid var(--gray-light);
@@ -337,7 +337,7 @@
     100% { transform: translateX(-50%); }
   }
 
-  /* ── SECTION BASE ── */
+  /*  SECTION BASE  */
   section { padding: 120px 60px; }
 
   .section-header {
@@ -377,7 +377,7 @@
     color: var(--gold);
   }
 
-  /* ── SOBRE ── */
+  /*  SOBRE  */
   #sobre {
     background: var(--dark);
     display: grid;
@@ -507,7 +507,7 @@
     line-height: 1.5;
   }
 
-  /* ── SERVIÇOS ── */
+  /*  SERVIÇOS  */
   #servicos { background: var(--black); }
 
   .services-grid {
@@ -602,7 +602,7 @@
     padding: 4px 12px;
   }
 
-  /* ── PRODUTO DESTAQUE (GiroDrive) ── */
+  /*  PRODUTO DESTAQUE (GiroDrive)  */
   #produto {
     background: var(--dark);
     position: relative;
@@ -807,7 +807,7 @@
 
   .pricing-card.highlight .pricing-value { color: var(--gold); }
 
-  /* ── PROCESSO ── */
+  /*  PROCESSO  */
   #processo { background: var(--black); }
 
   .processo-steps {
@@ -873,7 +873,7 @@
     color: var(--gray);
   }
 
-  /* ── CTA FAIXA ── */
+  /*  CTA FAIXA  */
   #cta-band {
     background: var(--gold);
     padding: 80px 60px;
@@ -917,7 +917,7 @@
     transform: translateY(-2px);
   }
 
-  /* ── DEPOIMENTOS ── */
+  /*  DEPOIMENTOS  */
   #depoimentos { background: var(--dark); }
 
   .depo-grid {
@@ -992,7 +992,7 @@
     display: block;
   }
 
-  /* ── CONTATO ── */
+  /*  CONTATO  */
   #contato {
     background: var(--black);
     display: grid;
@@ -1094,7 +1094,7 @@
     gap: 16px;
   }
 
-  /* ── FOOTER ── */
+  /*  FOOTER  */
   footer {
     background: var(--dark);
     border-top: 1px solid var(--gray-light);
@@ -1180,7 +1180,7 @@
     color: var(--gold);
   }
 
-  /* ── ANIMAÇÕES DE ENTRADA ── */
+  /*  ANIMAÇÕES DE ENTRADA  */
   .fade-in {
     opacity: 0;
     transform: translateY(30px);
@@ -1192,12 +1192,12 @@
     transform: translateY(0);
   }
 
-  /* ── SCROLLBAR ── */
+  /*  SCROLLBAR  */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--dark); }
   ::-webkit-scrollbar-thumb { background: var(--gold); }
 
-  /* ── RESPONSIVE ── */
+  /*  RESPONSIVE  */
   @media (max-width: 1024px) {
     nav { padding: 18px 28px; }
     .nav-links { display: none; }
@@ -1235,7 +1235,6 @@
     <li><a href="#sobre">Sobre</a></li>
     <li><a href="#servicos">Serviços</a></li>
     <li><a href="#processo">Como funciona</a></li>
-    <li><a href="#depoimentos">Resultados</a></li>
     <li><a href="#contato">Contato</a></li>
   </ul>
   <a href="#contato" class="nav-cta">Entre em contato</a>
@@ -1324,22 +1323,22 @@
 
     <div class="sobre-pillars">
       <div class="pillar">
-        <span class="pillar-icon">📊</span>
+        <span class="pillar-icon"></span>
         <strong>Inteligência de Dados</strong>
         <span>Dashboards que mostram o que realmente importa</span>
       </div>
       <div class="pillar">
-        <span class="pillar-icon">⚙️</span>
+        <span class="pillar-icon"></span>
         <strong>Processos Operacionais</strong>
         <span>Mapeamento e otimização de fluxos</span>
       </div>
       <div class="pillar">
-        <span class="pillar-icon">🚛</span>
+        <span class="pillar-icon"></span>
         <strong>Gestão de Motoristas</strong>
         <span>Plataformas de controle e onboarding</span>
       </div>
       <div class="pillar">
-        <span class="pillar-icon">💡</span>
+        <span class="pillar-icon"></span>
         <strong>Mentoria Executiva</strong>
         <span>Para gestores que querem evoluir</span>
       </div>
@@ -1357,7 +1356,7 @@
   <div class="services-grid">
     <div class="service-card fade-in">
       <span class="service-num">01</span>
-      <div class="service-icon">🎓</div>
+      <div class="service-icon"></div>
       <div class="service-title">Mentoria para Gestores</div>
       <p class="service-desc">Acompanhamento individual para gerentes, diretores e sócios de transportadoras. Desenvolvemos visão estratégica, tomada de decisão baseada em dados e liderança operacional de alta performance.</p>
       <div class="service-tags">
@@ -1368,22 +1367,10 @@
       </div>
     </div>
 
-    <div class="service-card fade-in">
-      <span class="service-num">02</span>
-      <div class="service-icon">🚛</div>
-      <div class="service-title">Plataforma de Onboard de Motoristas</div>
-      <p class="service-desc">Sistema completo de admissão e gestão de motoristas: cadastro digital, histórico de viagens, níveis de experiência, comunicação via WhatsApp e painel administrativo com upload de planilhas ATUA.</p>
-      <div class="service-tags">
-        <span class="tag">Intranet</span>
-        <span class="tag">Z-API</span>
-        <span class="tag">ATUA</span>
-        <span class="tag">WhatsApp Bot</span>
-      </div>
-    </div>
 
     <div class="service-card fade-in">
-      <span class="service-num">03</span>
-      <div class="service-icon">⚡</div>
+      <span class="service-num">02</span>
+      <div class="service-icon"></div>
       <div class="service-title">Cadastro Rápido de Motoristas</div>
       <p class="service-desc">Fluxo otimizado de cadastro que reduz o tempo de admissão de horas para minutos. Coleta de dados, documentação e validação de CNH e RNTRC integrados em um único processo digital.</p>
       <div class="service-tags">
@@ -1395,8 +1382,8 @@
     </div>
 
     <div class="service-card fade-in">
-      <span class="service-num">04</span>
-      <div class="service-icon">🛡️</div>
+      <span class="service-num">03</span>
+      <div class="service-icon"></div>
       <div class="service-title">Gerenciadora de Riscos</div>
       <p class="service-desc">Análise e controle de risco operacional para sua frota: monitoramento de ocorrências, histórico de motoristas, alertas de vencimento de documentos e score de confiabilidade por perfil.</p>
       <div class="service-tags">
@@ -1408,8 +1395,8 @@
     </div>
 
     <div class="service-card fade-in">
-      <span class="service-num">05</span>
-      <div class="service-icon">🔍</div>
+      <span class="service-num">04</span>
+      <div class="service-icon"></div>
       <div class="service-title">Consulta de Motoristas</div>
       <p class="service-desc">Serviço de pesquisa e validação de histórico de motoristas para transportadoras. Antes de contratar, consulte reputação, ocorrências anteriores e conformidade documental.</p>
       <div class="service-tags">
@@ -1420,8 +1407,8 @@
     </div>
 
     <div class="service-card fade-in">
-      <span class="service-num">06</span>
-      <div class="service-icon">🗺️</div>
+      <span class="service-num">05</span>
+      <div class="service-icon"></div>
       <div class="service-title">Base de Referências de Viagens</div>
       <p class="service-desc">Banco de dados com referências de rotas, fretes praticados, pontos de parada, postos e informações estratégicas para precificação e planejamento operacional de viagens.</p>
       <div class="service-tags">
@@ -1433,8 +1420,8 @@
     </div>
 
     <div class="service-card fade-in">
-      <span class="service-num">07</span>
-      <div class="service-icon">📊</div>
+      <span class="service-num">06</span>
+      <div class="service-icon"></div>
       <div class="service-title">Planilhas de Gestão</div>
       <p class="service-desc">Ferramentas prontas e personalizadas para gestão de frota e controle de caixa: modelos em Excel com fórmulas, dashboards visuais, DRE simplificado e controle de manutenção preventiva.</p>
       <div class="service-tags">
@@ -1446,8 +1433,8 @@
     </div>
 
     <div class="service-card fade-in">
-      <span class="service-num">08</span>
-      <div class="service-icon">💻</div>
+      <span class="service-num">07</span>
+      <div class="service-icon"></div>
       <div class="service-title">Especialização no Sistema ATUA</div>
       <p class="service-desc">Treinamento, implantação e suporte para equipes que utilizam o sistema ATUA da NStech. Extraia o máximo do ERP: relatórios, integrações, rotinas fiscais e CT-e de forma eficiente.</p>
       <div class="service-tags">
@@ -1471,20 +1458,20 @@
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1100px;margin:0 auto">
 
     <div class="fade-in" style="background:var(--black);border:1px solid var(--gray-light);padding:44px 36px;transition:border-color 0.3s" onmouseover="this.style.borderColor='rgba(212,160,23,0.5)'" onmouseout="this.style.borderColor='var(--gray-light)'">
-      <div style="font-size:36px;margin-bottom:20px">🎯</div>
+      <div style="font-size:36px;margin-bottom:20px"></div>
       <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:12px">Especialização setorial</div>
       <p style="font-size:14px;color:var(--gray);line-height:1.7;font-weight:300">Não somos consultoria genérica. Cada solução foi desenvolvida especificamente para o contexto das transportadoras brasileiras — do ATUA ao CT-e.</p>
     </div>
 
     <div class="fade-in" style="background:var(--black);border:1px solid var(--gold);padding:44px 36px;position:relative">
       <div style="position:absolute;top:-1px;left:0;right:0;height:3px;background:var(--gold)"></div>
-      <div style="font-size:36px;margin-bottom:20px">⚡</div>
+      <div style="font-size:36px;margin-bottom:20px"></div>
       <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:12px">Entrega rápida e prática</div>
       <p style="font-size:14px;color:var(--gray);line-height:1.7;font-weight:300">Sem meses de diagnóstico sem resultado. Entregamos ferramentas funcionando em dias — planilhas, plataformas e processos prontos para usar.</p>
     </div>
 
     <div class="fade-in" style="background:var(--black);border:1px solid var(--gray-light);padding:44px 36px;transition:border-color 0.3s" onmouseover="this.style.borderColor='rgba(212,160,23,0.5)'" onmouseout="this.style.borderColor='var(--gray-light)'">
-      <div style="font-size:36px;margin-bottom:20px">🤝</div>
+      <div style="font-size:36px;margin-bottom:20px"></div>
       <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:12px">Parceria de longo prazo</div>
       <p style="font-size:14px;color:var(--gray);line-height:1.7;font-weight:300">Não desaparecemos após a entrega. Acompanhamos os indicadores, ajustamos as ferramentas e evoluímos junto com o seu negócio.</p>
     </div>
@@ -1492,22 +1479,14 @@
   </div>
 
   <!-- Números -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray-light);border:1px solid var(--gray-light);margin-top:60px">
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--gray-light);border:1px solid var(--gray-light);margin-top:60px">
     <div class="fade-in" style="background:var(--black);padding:40px;text-align:center">
-      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">8+</div>
-      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Anos de experiência</div>
+      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">3+</div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Anos de Experiência</div>
     </div>
     <div class="fade-in" style="background:var(--black);padding:40px;text-align:center">
-      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">+6k</div>
-      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Motoristas gerenciados</div>
-    </div>
-    <div class="fade-in" style="background:var(--black);padding:40px;text-align:center">
-      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">100%</div>
-      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Foco em logística</div>
-    </div>
-    <div class="fade-in" style="background:var(--black);padding:40px;text-align:center">
-      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">GO</div>
-      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Centro-Oeste · Brasil</div>
+      <div style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);line-height:1">Nacional</div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:8px">Atuação em todo território nacional</div>
     </div>
   </div>
 </section>
@@ -1563,28 +1542,28 @@
 
     <div class="contato-items">
       <div class="contato-item">
-        <div class="contato-item-icon">📍</div>
+        <div class="contato-item-icon"></div>
         <div>
           <strong>Localização</strong>
           <span>Rio Verde, Goiás — Brasil</span>
         </div>
       </div>
       <div class="contato-item">
-        <div class="contato-item-icon">💬</div>
+        <div class="contato-item-icon"></div>
         <div>
           <strong>WhatsApp</strong>
           <span>(62) 9 8118-9378</span>
         </div>
       </div>
       <div class="contato-item">
-        <div class="contato-item-icon">📧</div>
+        <div class="contato-item-icon"></div>
         <div>
           <strong>E-mail</strong>
           <span>contato@p2log.com.br</span>
         </div>
       </div>
       <div class="contato-item">
-        <div class="contato-item-icon">🔗</div>
+        <div class="contato-item-icon"></div>
         <div>
           <strong>LinkedIn</strong>
           <span>linkedin.com/in/pablopraun</span>
@@ -1617,7 +1596,6 @@
       <select>
         <option value="">Selecione um serviço...</option>
         <option>Mentoria para Gestores</option>
-        <option>Plataforma de Onboard de Motoristas</option>
         <option>Cadastro Rápido de Motoristas</option>
         <option>Gerenciadora de Riscos</option>
         <option>Consulta de Motoristas</option>
@@ -1691,7 +1669,7 @@
       <a href="#" class="social-link" title="LinkedIn">in</a>
       <a href="#" class="social-link" title="Instagram">ig</a>
       <a href="#" class="social-link" title="TikTok">tt</a>
-      <a href="#" class="social-link" title="X">𝕏</a>
+      <a href="#" class="social-link" title="X"></a>
     </div>
   </div>
 </footer>
