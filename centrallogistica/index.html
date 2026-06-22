@@ -5,626 +5,626 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Frete — P2 LOG Soluções</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Arial', sans-serif; background: #f5f3ef; color: #1F2937; min-height: 100vh; }
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ body { font-family: 'Arial', sans-serif; background: #f5f3ef; color: #1F2937; min-height: 100vh; }
 
-  /* HEADER */
-  .header { background: #0a0a0a; color: #fff; padding: 18px 24px 14px; border-bottom: 3px solid #D4A017; }
-  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: .5px; }
-  .header p  { font-size: 12px; color: #D4A017; margin-top: 4px; }
+ /* HEADER */
+ .header { background: #0a0a0a; color: #fff; padding: 18px 24px 14px; border-bottom: 3px solid #D4A017; }
+ .header h1 { font-size: 20px; font-weight: 700; letter-spacing: .5px; }
+ .header p { font-size: 12px; color: #D4A017; margin-top: 4px; }
 
-  /* TABS */
-  .tabs { display: flex; background: #111111; padding: 0 24px; border-bottom: 2px solid #D4A017; }
-  .tab { padding: 10px 22px; font-size: 14px; font-weight: 600; color: #8a8a8a; cursor: pointer;
-         border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .2s; }
-  .tab.active { color: #D4A017; border-bottom-color: #D4A017; background: rgba(212,160,23,.08); }
-  .tab:hover:not(.active) { color: #D4A017; }
+ /* TABS */
+ .tabs { display: flex; background: #111111; padding: 0 24px; border-bottom: 2px solid #D4A017; }
+ .tab { padding: 10px 22px; font-size: 14px; font-weight: 600; color: #8a8a8a; cursor: pointer;
+ border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .2s; }
+ .tab.active { color: #D4A017; border-bottom-color: #D4A017; background: rgba(212,160,23,.08); }
+ .tab:hover:not(.active) { color: #D4A017; }
 
-  /* CONTAINER */
-  .container { max-width: 780px; margin: 0 auto; padding: 24px 16px; }
-  .panel { display: none; }
-  .panel.active { display: block; }
+ /* CONTAINER */
+ .container { max-width: 780px; margin: 0 auto; padding: 24px 16px; }
+ .panel { display: none; }
+ .panel.active { display: block; }
 
-  /* CARD */
-  .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.09); margin-bottom: 16px; overflow: hidden; }
-  .card-header { padding: 11px 18px; font-size: 12px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
-  .card-header.receita  { background: #DBEAFE; color: #1E40AF; }
-  .card-header.custo    { background: #FEE2E2; color: #991B1B; }
-  .card-header.result   { background: #DCFCE7; color: #166534; }
-  .card-header.seguro   { background: #EDE9FE; color: #5B21B6; }
-  .card-header.prazo    { background: #FEF3C7; color: #92400E; }
+ /* CARD */
+ .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.09); margin-bottom: 16px; overflow: hidden; }
+ .card-header { padding: 11px 18px; font-size: 12px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+ .card-header.receita { background: #DBEAFE; color: #1E40AF; }
+ .card-header.custo { background: #FEE2E2; color: #991B1B; }
+ .card-header.result { background: #DCFCE7; color: #166534; }
+ .card-header.seguro { background: #EDE9FE; color: #5B21B6; }
+ .card-header.prazo { background: #FEF3C7; color: #92400E; }
 
-  /* PRAZO REAL */
-  .prazo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
-  .prazo-item { background: #F8FAFC; border-radius: 8px; padding: 10px 14px; border: 1.5px solid #E5E7EB; }
-  .prazo-item .pl { font-size: 11px; color: #9CA3AF; margin-bottom: 3px; }
-  .prazo-item .pv { font-size: 17px; font-weight: 700; color: #0a0a0a; }
-  .prazo-item.real-ok   { background: #DCFCE7; border-color: #86EFAC; }
-  .prazo-item.real-ok   .pv { color: #16A34A; }
-  .prazo-item.real-warn { background: #FEE2E2; border-color: #FCA5A5; }
-  .prazo-item.real-warn .pv { color: #DC2626; }
-  .prazo-dias { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
-  .prazo-dias label { font-size: 13.5px; font-weight: 500; color: #374151; flex: 1; min-width: 160px; }
-  .prazo-bar { height: 8px; border-radius: 4px; background: #E5E7EB; margin-top: 8px; overflow: hidden; }
-  .prazo-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #F59E0B, #DC2626); transition: width .4s; }
-  .card-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+ /* PRAZO REAL */
+ .prazo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+ .prazo-item { background: #F8FAFC; border-radius: 8px; padding: 10px 14px; border: 1.5px solid #E5E7EB; }
+ .prazo-item .pl { font-size: 11px; color: #9CA3AF; margin-bottom: 3px; }
+ .prazo-item .pv { font-size: 17px; font-weight: 700; color: #0a0a0a; }
+ .prazo-item.real-ok { background: #DCFCE7; border-color: #86EFAC; }
+ .prazo-item.real-ok .pv { color: #16A34A; }
+ .prazo-item.real-warn { background: #FEE2E2; border-color: #FCA5A5; }
+ .prazo-item.real-warn .pv { color: #DC2626; }
+ .prazo-dias { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+ .prazo-dias label { font-size: 13.5px; font-weight: 500; color: #374151; flex: 1; min-width: 160px; }
+ .prazo-bar { height: 8px; border-radius: 4px; background: #E5E7EB; margin-top: 8px; overflow: hidden; }
+ .prazo-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #F59E0B, #DC2626); transition: width .4s; }
+ .card-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
 
-  /* FIELD ROW */
-  .field { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .field label { flex: 1; min-width: 200px; font-size: 13.5px; color: #374151; font-weight: 500; }
-  .field label small { display: block; font-size: 11px; color: #9CA3AF; font-weight: 400; margin-top: 2px; }
-  .field .input-wrap { display: flex; align-items: center; gap: 0; }
-  .field .prefix, .field .suffix {
-    background: #E5E7EB; color: #6B7280; font-size: 13px; font-weight: 600;
-    padding: 0 10px; height: 40px; display: flex; align-items: center; border: 1.5px solid #D1D5DB;
-  }
-  .field .prefix { border-right: none; border-radius: 6px 0 0 6px; }
-  .field .suffix { border-left: none; border-radius: 0 6px 6px 0; }
-  input[type="number"], input[type="text"] {
-    height: 40px; border: 1.5px solid #D1D5DB; font-size: 14px; font-weight: 600;
-    padding: 0 10px; color: #b08010; background: #faf8f0; outline: none;
-    transition: border-color .2s; min-width: 130px;
-  }
-  input[type="number"]:focus, input[type="text"]:focus { border-color: #D4A017; background: #faf8f0; }
-  input.solo { border-radius: 6px; }
-  input.mid  { border-radius: 0; }
-  input.left { border-radius: 6px 0 0 6px; }
+ /* FIELD ROW */
+ .field { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+ .field label { flex: 1; min-width: 200px; font-size: 13.5px; color: #374151; font-weight: 500; }
+ .field label small { display: block; font-size: 11px; color: #9CA3AF; font-weight: 400; margin-top: 2px; }
+ .field .input-wrap { display: flex; align-items: center; gap: 0; }
+ .field .prefix, .field .suffix {
+ background: #E5E7EB; color: #6B7280; font-size: 13px; font-weight: 600;
+ padding: 0 10px; height: 40px; display: flex; align-items: center; border: 1.5px solid #D1D5DB;
+ }
+ .field .prefix { border-right: none; border-radius: 6px 0 0 6px; }
+ .field .suffix { border-left: none; border-radius: 0 6px 6px 0; }
+ input[type="number"], input[type="text"] {
+ height: 40px; border: 1.5px solid #D1D5DB; font-size: 14px; font-weight: 600;
+ padding: 0 10px; color: #b08010; background: #faf8f0; outline: none;
+ transition: border-color .2s; min-width: 130px;
+ }
+ input[type="number"]:focus, input[type="text"]:focus { border-color: #D4A017; background: #faf8f0; }
+ input.solo { border-radius: 6px; }
+ input.mid { border-radius: 0; }
+ input.left { border-radius: 6px 0 0 6px; }
 
-  /* COMPUTED */
-  .computed { height: 40px; padding: 0 12px; font-size: 14px; font-weight: 700;
-              background: #F8FAFC; border: 1.5px solid #E5E7EB; border-radius: 6px;
-              display: flex; align-items: center; min-width: 130px; color: #374151; }
-  .computed.green { background: #DCFCE7; color: #16A34A; border-color: #86EFAC; }
-  .computed.red   { background: #FEE2E2; color: #DC2626; border-color: #FCA5A5; }
-  .pct-badge { margin-left: 8px; font-size: 12px; padding: 2px 8px; border-radius: 20px;
-               font-weight: 700; white-space: nowrap; }
-  .pct-badge.green { background: #DCFCE7; color: #16A34A; }
-  .pct-badge.red   { background: #FEE2E2; color: #DC2626; }
-  .pct-badge.gray  { background: #f5f3ef; color: #6B7280; }
+ /* COMPUTED */
+ .computed { height: 40px; padding: 0 12px; font-size: 14px; font-weight: 700;
+ background: #F8FAFC; border: 1.5px solid #E5E7EB; border-radius: 6px;
+ display: flex; align-items: center; min-width: 130px; color: #374151; }
+ .computed.green { background: #DCFCE7; color: #16A34A; border-color: #86EFAC; }
+ .computed.red { background: #FEE2E2; color: #DC2626; border-color: #FCA5A5; }
+ .pct-badge { margin-left: 8px; font-size: 12px; padding: 2px 8px; border-radius: 20px;
+ font-weight: 700; white-space: nowrap; }
+ .pct-badge.green { background: #DCFCE7; color: #16A34A; }
+ .pct-badge.red { background: #FEE2E2; color: #DC2626; }
+ .pct-badge.gray { background: #f5f3ef; color: #6B7280; }
 
-  /* TOGGLE PEDAGIO */
-  .toggle-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .toggle-row label { font-size: 13.5px; color: #374151; font-weight: 500; }
-  .toggle-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
-  .toggle-switch input { opacity: 0; width: 0; height: 0; }
-  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background: #D1D5DB; border-radius: 24px; transition: .3s; }
-  .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
-                   background: white; border-radius: 50%; transition: .3s; }
-  input:checked + .slider { background: #2563EB; }
-  input:checked + .slider:before { transform: translateX(20px); }
-  .cond-field { flex: 1; display: none; }
-  .cond-field.visible { display: flex; align-items: center; gap: 0; }
+ /* TOGGLE PEDAGIO */
+ .toggle-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+ .toggle-row label { font-size: 13.5px; color: #374151; font-weight: 500; }
+ .toggle-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+ .toggle-switch input { opacity: 0; width: 0; height: 0; }
+ .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+ background: #D1D5DB; border-radius: 24px; transition: .3s; }
+ .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+ background: white; border-radius: 50%; transition: .3s; }
+ input:checked + .slider { background: #2563EB; }
+ input:checked + .slider:before { transform: translateX(20px); }
+ .cond-field { flex: 1; display: none; }
+ .cond-field.visible { display: flex; align-items: center; gap: 0; }
 
-  /* ICMS */
-  .icms-row { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
-  .icms-row .icms-toggle-area { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 200px; }
-  .icms-row label.main { font-size: 13.5px; color: #374151; font-weight: 500; }
-  .icms-inputs { display: none; flex-direction: column; gap: 8px; }
-  .icms-inputs.visible { display: flex; }
-  .icms-sub { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .icms-sub span { font-size: 12px; color: #6B7280; white-space: nowrap; }
+ /* ICMS */
+ .icms-row { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+ .icms-row .icms-toggle-area { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 200px; }
+ .icms-row label.main { font-size: 13.5px; color: #374151; font-weight: 500; }
+ .icms-inputs { display: none; flex-direction: column; gap: 8px; }
+ .icms-inputs.visible { display: flex; }
+ .icms-sub { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+ .icms-sub span { font-size: 12px; color: #6B7280; white-space: nowrap; }
 
-  /* STATUS */
-  .status-box { border-radius: 8px; padding: 14px 18px; text-align: center; font-size: 15px;
-                font-weight: 700; margin-top: 4px; transition: all .3s; }
-  .status-box.ok   { background: #DCFCE7; color: #16A34A; border: 2px solid #86EFAC; }
-  .status-box.warn { background: #FEE2E2; color: #DC2626; border: 2px solid #FCA5A5; }
-  .status-box.idle { background: #f5f3ef; color: #9CA3AF; border: 2px solid #E5E7EB; }
+ /* STATUS */
+ .status-box { border-radius: 8px; padding: 14px 18px; text-align: center; font-size: 15px;
+ font-weight: 700; margin-top: 4px; transition: all .3s; }
+ .status-box.ok { background: #DCFCE7; color: #16A34A; border: 2px solid #86EFAC; }
+ .status-box.warn { background: #FEE2E2; color: #DC2626; border: 2px solid #FCA5A5; }
+ .status-box.idle { background: #f5f3ef; color: #9CA3AF; border: 2px solid #E5E7EB; }
 
-  /* META POR PRAZO */
-  .meta-badge { display: flex; align-items: center; gap: 8px; background: #F8FAFC;
-                border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 8px 14px;
-                margin-top: 6px; flex-wrap: wrap; }
-  .meta-badge .mb-label { font-size: 12px; color: #6B7280; flex: 1; }
-  .meta-badge .mb-val { font-size: 16px; font-weight: 800; color: #1A3A5C; }
-  .meta-badge .mb-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px;
-                        background: #DBEAFE; color: #1E40AF; font-weight: 600; }
-  .meta-tabela { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
-  .meta-tabela th { background: #f5f3ef; color: #6B7280; padding: 5px 10px; text-align: left;
-                    font-weight: 600; border-bottom: 1px solid #E5E7EB; }
-  .meta-tabela td { padding: 5px 10px; border-bottom: 1px solid #F1F5F9; color: #374151; }
-  .meta-tabela tr.ativa td { background: #DBEAFE; font-weight: 700; color: #1E40AF; }
+ /* META POR PRAZO */
+ .meta-badge { display: flex; align-items: center; gap: 8px; background: #F8FAFC;
+ border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 8px 14px;
+ margin-top: 6px; flex-wrap: wrap; }
+ .meta-badge .mb-label { font-size: 12px; color: #6B7280; flex: 1; }
+ .meta-badge .mb-val { font-size: 16px; font-weight: 800; color: #1A3A5C; }
+ .meta-badge .mb-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px;
+ background: #DBEAFE; color: #1E40AF; font-weight: 600; }
+ .meta-tabela { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+ .meta-tabela th { background: #f5f3ef; color: #6B7280; padding: 5px 10px; text-align: left;
+ font-weight: 600; border-bottom: 1px solid #E5E7EB; }
+ .meta-tabela td { padding: 5px 10px; border-bottom: 1px solid #F1F5F9; color: #374151; }
+ .meta-tabela tr.ativa td { background: #DBEAFE; font-weight: 700; color: #1E40AF; }
 
-  /* RESULT GRID */
-  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .result-item { background: #F8FAFC; border-radius: 8px; padding: 12px 16px; border: 1.5px solid #E5E7EB; }
-  .result-item .rl { font-size: 11px; color: #9CA3AF; margin-bottom: 4px; }
-  .result-item .rv { font-size: 20px; font-weight: 700; color: #1A3A5C; }
-  .result-item.main { background: #DCFCE7; border-color: #86EFAC; }
-  .result-item.main .rv { color: #16A34A; font-size: 26px; }
-  .result-item.danger { background: #FEE2E2; border-color: #FCA5A5; }
-  .result-item.danger .rv { color: #DC2626; font-size: 26px; }
+ /* RESULT GRID */
+ .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+ .result-item { background: #F8FAFC; border-radius: 8px; padding: 12px 16px; border: 1.5px solid #E5E7EB; }
+ .result-item .rl { font-size: 11px; color: #9CA3AF; margin-bottom: 4px; }
+ .result-item .rv { font-size: 20px; font-weight: 700; color: #1A3A5C; }
+ .result-item.main { background: #DCFCE7; border-color: #86EFAC; }
+ .result-item.main .rv { color: #16A34A; font-size: 26px; }
+ .result-item.danger { background: #FEE2E2; border-color: #FCA5A5; }
+ .result-item.danger .rv { color: #DC2626; font-size: 26px; }
 
-  /* SEGURO BREAKDOWN */
-  .seg-breakdown { background: #F5F3FF; border-radius: 8px; padding: 12px 14px; margin-top: 4px;
-                   border: 1px solid #DDD6FE; }
-  .seg-line { display: flex; justify-content: space-between; align-items: center;
-              padding: 4px 0; font-size: 13px; border-bottom: 1px solid #EDE9FE; }
-  .seg-line:last-child { border-bottom: none; font-weight: 700; color: #5B21B6; }
-  .seg-line span:last-child { font-weight: 600; color: #5B21B6; }
+ /* SEGURO BREAKDOWN */
+ .seg-breakdown { background: #F5F3FF; border-radius: 8px; padding: 12px 14px; margin-top: 4px;
+ border: 1px solid #DDD6FE; }
+ .seg-line { display: flex; justify-content: space-between; align-items: center;
+ padding: 4px 0; font-size: 13px; border-bottom: 1px solid #EDE9FE; }
+ .seg-line:last-child { border-bottom: none; font-weight: 700; color: #5B21B6; }
+ .seg-line span:last-child { font-weight: 600; color: #5B21B6; }
 
-  /* DIVIDER */
-  hr { border: none; border-top: 1px solid #E5E7EB; margin: 4px 0; }
-  .note { font-size: 11px; color: #9CA3AF; font-style: italic; padding: 0 18px 12px; }
-  @media (max-width: 540px) {
-    .result-grid { grid-template-columns: 1fr; }
-    .field label { min-width: 100%; }
-  }
+ /* DIVIDER */
+ hr { border: none; border-top: 1px solid #E5E7EB; margin: 4px 0; }
+ .note { font-size: 11px; color: #9CA3AF; font-style: italic; padding: 0 18px 12px; }
+ @media (max-width: 540px) {
+ .result-grid { grid-template-columns: 1fr; }
+ .field label { min-width: 100%; }
+ }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div style="display:flex;align-items:center;gap:16px;">
-    <div style="display:flex;flex-direction:column;">
-      <div style="display:flex;align-items:baseline;line-height:1;">
-        <span style="font-family:Arial Black,sans-serif;font-size:26px;color:#f5f3ef;font-weight:900;">P</span>
-        <span style="font-family:Arial Black,sans-serif;font-size:26px;color:#D4A017;font-weight:900;">2</span>
-        <span style="font-family:Arial Black,sans-serif;font-size:26px;color:#f5f3ef;font-weight:900;margin-left:5px;letter-spacing:2px;">LOG</span>
-      </div>
-      <div style="height:1.5px;background:linear-gradient(90deg,#D4A017,rgba(212,160,23,0.2));margin-top:2px;"></div>
-    </div>
-    <div>
-      <h1 style="font-size:18px;font-weight:700;letter-spacing:.5px;">Calculadora de Frete — Simulador Completo</h1>
-      <p>Tecnologia · Segurança · Controle em Logística &nbsp;|&nbsp; <a href="https://p2log.com.br" style="color:#D4A017;text-decoration:none;">p2log.com.br</a></p>
-    </div>
-  </div>
+ <div style="display:flex;align-items:center;gap:16px;">
+ <div style="display:flex;flex-direction:column;">
+ <div style="display:flex;align-items:baseline;line-height:1;">
+ <span style="font-family:Arial Black,sans-serif;font-size:26px;color:#f5f3ef;font-weight:900;">P</span>
+ <span style="font-family:Arial Black,sans-serif;font-size:26px;color:#D4A017;font-weight:900;">2</span>
+ <span style="font-family:Arial Black,sans-serif;font-size:26px;color:#f5f3ef;font-weight:900;margin-left:5px;letter-spacing:2px;">LOG</span>
+ </div>
+ <div style="height:1.5px;background:linear-gradient(90deg,#D4A017,rgba(212,160,23,0.2));margin-top:2px;"></div>
+ </div>
+ <div>
+ <h1 style="font-size:18px;font-weight:700;letter-spacing:.5px;">Calculadora de Frete — Simulador Completo</h1>
+ <p>Tecnologia · Segurança · Controle em Logística &nbsp;|&nbsp; <a href="https://p2log.com.br" style="color:#D4A017;text-decoration:none;">p2log.com.br</a></p>
+ </div>
+ </div>
 </div>
 
 
-<!-- ═══════════════════ ABA 2 — COMPLETO ══════════════════════════════════ -->
+<!-- ABA 2 — COMPLETO -->
 <div id="panel1" class="panel active">
 <div class="container">
 
-  <div class="card">
-    <div class="card-header receita">📦 Receita</div>
-    <div class="card-body">
-      <div class="field">
-        <label>Frete Empresa <small>Valor cobrado do cliente</small></label>
-        <div class="input-wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="c_frete" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
-          <span class="suffix">100%</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Valor da Nota Fiscal <small>Usado para calcular o seguro</small></label>
-        <div class="input-wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="c_nota" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
-          <span class="suffix">NF</span>
-        </div>
-      </div>
-    </div>
-  </div>
+ <div class="card">
+ <div class="card-header receita"> Receita</div>
+ <div class="card-body">
+ <div class="field">
+ <label>Frete Empresa <small>Valor cobrado do cliente</small></label>
+ <div class="input-wrap">
+ <span class="prefix">R$</span>
+ <input type="number" id="c_frete" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
+ <span class="suffix">100%</span>
+ </div>
+ </div>
+ <div class="field">
+ <label>Valor da Nota Fiscal <small>Usado para calcular o seguro</small></label>
+ <div class="input-wrap">
+ <span class="prefix">R$</span>
+ <input type="number" id="c_nota" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
+ <span class="suffix">NF</span>
+ </div>
+ </div>
+ </div>
+ </div>
 
-  <div class="card">
-    <div class="card-header custo">💸 Custos — preencha cada item</div>
-    <div class="card-body">
+ <div class="card">
+ <div class="card-header custo"> Custos — preencha cada item</div>
+ <div class="card-body">
 
-      <!-- Frete motorista -->
-      <div class="field">
-        <label>(-) Frete Motorista <small>Valor pago ao motorista</small></label>
-        <div class="input-wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="c_moto" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
-          <span class="suffix" id="c_moto_pct">—</span>
-        </div>
-      </div>
+ <!-- Frete motorista -->
+ <div class="field">
+ <label>(-) Frete Motorista <small>Valor pago ao motorista</small></label>
+ <div class="input-wrap">
+ <span class="prefix">R$</span>
+ <input type="number" id="c_moto" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
+ <span class="suffix" id="c_moto_pct">—</span>
+ </div>
+ </div>
 
-      <!-- Pedágio -->
-      <div class="toggle-row">
-        <label>(-) Tem pedágio?</label>
-        <label class="toggle-switch">
-          <input type="checkbox" id="c_ped_chk" onchange="togglePedC(); calcCompleto()">
-          <span class="slider"></span>
-        </label>
-        <div class="cond-field" id="c_ped_wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="c_ped" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
-          <span class="suffix" id="c_ped_pct">—</span>
-        </div>
-      </div>
+ <!-- Pedágio -->
+ <div class="toggle-row">
+ <label>(-) Tem pedágio?</label>
+ <label class="toggle-switch">
+ <input type="checkbox" id="c_ped_chk" onchange="togglePedC(); calcCompleto()">
+ <span class="slider"></span>
+ </label>
+ <div class="cond-field" id="c_ped_wrap">
+ <span class="prefix">R$</span>
+ <input type="number" id="c_ped" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
+ <span class="suffix" id="c_ped_pct">—</span>
+ </div>
+ </div>
 
-      <hr>
+ <hr>
 
-      <!-- ICMS -->
-      <div class="icms-row">
-        <div class="icms-toggle-area">
-          <label class="main">(-) Tem ICMS?</label>
-          <label class="toggle-switch">
-            <input type="checkbox" id="c_icms_chk" onchange="toggleIcms(); calcCompleto()">
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div class="icms-inputs" id="c_icms_wrap">
-          <div class="icms-sub">
-            <span>Alíquota ICMS:</span>
-            <div class="input-wrap">
-              <input type="number" id="c_icms_pct" class="left" placeholder="12" step="0.01" min="0" max="100"
-                     style="width:80px" oninput="calcCompleto()">
-              <span class="suffix">%</span>
-            </div>
-            <span style="font-size:12px;color:#6B7280">Ex: GO→outros estados = 12%</span>
-          </div>
-          <div class="icms-sub">
-            <span>Valor ICMS (R$):</span>
-            <div class="computed" id="c_icms_val" style="min-width:120px">—</div>
-            <span style="font-size:11px;color:#9CA3AF">calculado sobre o frete</span>
-          </div>
-        </div>
-      </div>
+ <!-- ICMS -->
+ <div class="icms-row">
+ <div class="icms-toggle-area">
+ <label class="main">(-) Tem ICMS?</label>
+ <label class="toggle-switch">
+ <input type="checkbox" id="c_icms_chk" onchange="toggleIcms(); calcCompleto()">
+ <span class="slider"></span>
+ </label>
+ </div>
+ <div class="icms-inputs" id="c_icms_wrap">
+ <div class="icms-sub">
+ <span>Alíquota ICMS:</span>
+ <div class="input-wrap">
+ <input type="number" id="c_icms_pct" class="left" placeholder="12" step="0.01" min="0" max="100"
+ style="width:80px" oninput="calcCompleto()">
+ <span class="suffix">%</span>
+ </div>
+ <span style="font-size:12px;color:#6B7280">Ex: GO→outros estados = 12%</span>
+ </div>
+ <div class="icms-sub">
+ <span>Valor ICMS (R$):</span>
+ <div class="computed" id="c_icms_val" style="min-width:120px">—</div>
+ <span style="font-size:11px;color:#9CA3AF">calculado sobre o frete</span>
+ </div>
+ </div>
+ </div>
 
-      <hr>
+ <hr>
 
-      <!-- Corretor -->
-      <div class="field">
-        <label>(-) Corretor <small>Comissão paga ao agenciador</small></label>
-        <div class="input-wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="c_corretor" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
-          <span class="suffix" id="c_corretor_pct">—</span>
-        </div>
-      </div>
+ <!-- Corretor -->
+ <div class="field">
+ <label>(-) Corretor <small>Comissão paga ao agenciador</small></label>
+ <div class="input-wrap">
+ <span class="prefix">R$</span>
+ <input type="number" id="c_corretor" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
+ <span class="suffix" id="c_corretor_pct">—</span>
+ </div>
+ </div>
 
-      <!-- Imposto Federal -->
-      <div class="icms-row" style="margin-bottom:0">
-        <div class="icms-toggle-area">
-          <label class="main">(-) Imposto Federal <span style="font-size:11px;color:#9CA3AF;font-weight:400">(ISS/PIS/COFINS/IBS)</span></label>
-        </div>
-        <div class="icms-inputs visible" style="margin-top:4px">
-          <div class="icms-sub">
-            <span>Alíquota:</span>
-            <div class="input-wrap">
-              <input type="number" id="c_imp_pct" class="left" placeholder="0" step="0.01" min="0" max="100"
-                     style="width:80px" oninput="calcCompleto()">
-              <span class="suffix">%</span>
-            </div>
-            <span style="font-size:11px;color:#9CA3AF">Varia por rota e regime</span>
-          </div>
-          <div class="icms-sub">
-            <span>Valor (R$):</span>
-            <div class="computed" id="c_imp_val" style="min-width:120px">—</div>
-          </div>
-        </div>
-      </div>
+ <!-- Imposto Federal -->
+ <div class="icms-row" style="margin-bottom:0">
+ <div class="icms-toggle-area">
+ <label class="main">(-) Imposto Federal <span style="font-size:11px;color:#9CA3AF;font-weight:400">(ISS/PIS/COFINS/IBS)</span></label>
+ </div>
+ <div class="icms-inputs visible" style="margin-top:4px">
+ <div class="icms-sub">
+ <span>Alíquota:</span>
+ <div class="input-wrap">
+ <input type="number" id="c_imp_pct" class="left" placeholder="0" step="0.01" min="0" max="100"
+ style="width:80px" oninput="calcCompleto()">
+ <span class="suffix">%</span>
+ </div>
+ <span style="font-size:11px;color:#9CA3AF">Varia por rota e regime</span>
+ </div>
+ <div class="icms-sub">
+ <span>Valor (R$):</span>
+ <div class="computed" id="c_imp_val" style="min-width:120px">—</div>
+ </div>
+ </div>
+ </div>
 
-      <!-- Diária e descarga -->
-      <div class="field">
-        <label>(-) Diária e Descarga <small>Estadias, ajudante, descarga</small></label>
-        <div class="input-wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="c_diaria" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
-          <span class="suffix" id="c_diaria_pct">—</span>
-        </div>
-      </div>
+ <!-- Diária e descarga -->
+ <div class="field">
+ <label>(-) Diária e Descarga <small>Estadias, ajudante, descarga</small></label>
+ <div class="input-wrap">
+ <span class="prefix">R$</span>
+ <input type="number" id="c_diaria" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcCompleto()">
+ <span class="suffix" id="c_diaria_pct">—</span>
+ </div>
+ </div>
 
-    </div>
-  </div>
+ </div>
+ </div>
 
-  <!-- Seguro -->
-  <div class="card">
-    <div class="card-header seguro">🛡️ Seguro (calculado automaticamente pela Nota Fiscal)</div>
-    <div class="card-body">
-      <div class="seg-breakdown" id="seg_box">
-        <div class="seg-line">
-          <span>RCF — Responsabilidade Civil Facultativa (0,013% da NF)</span>
-          <span id="seg_rcf">—</span>
-        </div>
-        <div class="seg-line">
-          <span>RCDC — Desvio e Roubo (0,013% da NF)</span>
-          <span id="seg_rcdc">—</span>
-        </div>
-        <div class="seg-line">
-          <span>TOTAL SEGURO (0,026% da NF)</span>
-          <span id="seg_total">—</span>
-        </div>
-      </div>
-      <p style="font-size:11px;color:#9CA3AF;margin-top:8px;padding:0">
-        Preencha o "Valor da Nota Fiscal" acima para calcular automaticamente.
-      </p>
-    </div>
-  </div>
+ <!-- Seguro -->
+ <div class="card">
+ <div class="card-header seguro"> Seguro (calculado automaticamente pela Nota Fiscal)</div>
+ <div class="card-body">
+ <div class="seg-breakdown" id="seg_box">
+ <div class="seg-line">
+ <span>RCF — Responsabilidade Civil Facultativa (0,013% da NF)</span>
+ <span id="seg_rcf">—</span>
+ </div>
+ <div class="seg-line">
+ <span>RCDC — Desvio e Roubo (0,013% da NF)</span>
+ <span id="seg_rcdc">—</span>
+ </div>
+ <div class="seg-line">
+ <span>TOTAL SEGURO (0,026% da NF)</span>
+ <span id="seg_total">—</span>
+ </div>
+ </div>
+ <p style="font-size:11px;color:#9CA3AF;margin-top:8px;padding:0">
+ Preencha o "Valor da Nota Fiscal" acima para calcular automaticamente.
+ </p>
+ </div>
+ </div>
 
-  <!-- Desconto 17% -->
-  <div class="card">
-    <div class="card-header" style="background:#FFF7ED;color:#92400E;">⚙️ Desconto Operacional — Comissão Gerentes + Taxas de Serviço</div>
-    <div class="card-body">
-      <div class="seg-breakdown" style="background:#FFF7ED;border-color:#FED7AA;">
-        <div class="seg-line" style="border-color:#FDE68A;">
-          <span>Resultado parcial (antes do desconto)</span>
-          <span id="c_resultado_parcial" style="color:#92400E">—</span>
-        </div>
-        <div class="seg-line" style="border-color:#FDE68A;">
-          <span>Desconto operacional (17% do resultado parcial)</span>
-          <span id="c_desconto_17" style="color:#DC2626">—</span>
-        </div>
-      </div>
-    </div>
-  </div>
+ <!-- Desconto 17% -->
+ <div class="card">
+ <div class="card-header" style="background:#FFF7ED;color:#92400E;"> Desconto Operacional — Comissão Gerentes + Taxas de Serviço</div>
+ <div class="card-body">
+ <div class="seg-breakdown" style="background:#FFF7ED;border-color:#FED7AA;">
+ <div class="seg-line" style="border-color:#FDE68A;">
+ <span>Resultado parcial (antes do desconto)</span>
+ <span id="c_resultado_parcial" style="color:#92400E">—</span>
+ </div>
+ <div class="seg-line" style="border-color:#FDE68A;">
+ <span>Desconto operacional (17% do resultado parcial)</span>
+ <span id="c_desconto_17" style="color:#DC2626">—</span>
+ </div>
+ </div>
+ </div>
+ </div>
 
-  <!-- Prazo de Recebimento — Completo -->
-  <div class="card">
-    <div class="card-header prazo">📅 Prazo de Recebimento</div>
-    <div class="card-body">
-      <div class="prazo-dias">
-        <label>Prazo de recebimento <small style="font-weight:400;color:#9CA3AF">0,028% ao dia sobre o Frete Empresa</small></label>
-        <div class="input-wrap">
-          <input type="number" id="c_prazo" class="left" placeholder="30" min="0" step="1" style="width:90px" oninput="calcCompleto()">
-          <span class="suffix">dias</span>
-        </div>
-      </div>
-      <div class="prazo-bar"><div class="prazo-bar-fill" id="c_prazo_bar" style="width:0%"></div></div>
-      <div class="prazo-grid">
-        <div class="prazo-item">
-          <div class="pl">Custo Financeiro (R$)</div>
-          <div class="pv" id="c_custo_prazo">—</div>
-        </div>
-        <div class="prazo-item">
-          <div class="pl">Custo Financeiro (%)</div>
-          <div class="pv" id="c_custo_prazo_pct">—</div>
-        </div>
-      </div>
-      <div class="meta-badge">
-        <span class="mb-label">Meta mínima aplicada para este prazo:</span>
-        <span class="mb-val" id="c_meta_val">12%</span>
-        <span class="mb-tag" id="c_meta_tag">padrão</span>
-      </div>
-      <table class="meta-tabela">
-        <thead><tr><th>Prazo</th><th>Meta mínima</th><th>Motivo</th></tr></thead>
-        <tbody id="c_meta_rows">
-          <tr data-min="0"  data-max="15"  data-meta="8"  ><td>Até 15 dias</td><td>8%</td><td>Pagamento rápido</td></tr>
-          <tr data-min="16" data-max="30"  data-meta="12" ><td>16 a 30 dias</td><td>12%</td><td>Prazo curto</td></tr>
-          <tr data-min="31" data-max="50"  data-meta="14" ><td>31 a 50 dias</td><td>14%</td><td>Prazo médio</td></tr>
-          <tr data-min="51" data-max="9999" data-meta="18"><td>Acima de 50 dias</td><td>18%</td><td>Prazo longo — custo alto</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+ <!-- Prazo de Recebimento — Completo -->
+ <div class="card">
+ <div class="card-header prazo"> Prazo de Recebimento</div>
+ <div class="card-body">
+ <div class="prazo-dias">
+ <label>Prazo de recebimento <small style="font-weight:400;color:#9CA3AF">0,028% ao dia sobre o Frete Empresa</small></label>
+ <div class="input-wrap">
+ <input type="number" id="c_prazo" class="left" placeholder="30" min="0" step="1" style="width:90px" oninput="calcCompleto()">
+ <span class="suffix">dias</span>
+ </div>
+ </div>
+ <div class="prazo-bar"><div class="prazo-bar-fill" id="c_prazo_bar" style="width:0%"></div></div>
+ <div class="prazo-grid">
+ <div class="prazo-item">
+ <div class="pl">Custo Financeiro (R$)</div>
+ <div class="pv" id="c_custo_prazo">—</div>
+ </div>
+ <div class="prazo-item">
+ <div class="pl">Custo Financeiro (%)</div>
+ <div class="pv" id="c_custo_prazo_pct">—</div>
+ </div>
+ </div>
+ <div class="meta-badge">
+ <span class="mb-label">Meta mínima aplicada para este prazo:</span>
+ <span class="mb-val" id="c_meta_val">12%</span>
+ <span class="mb-tag" id="c_meta_tag">padrão</span>
+ </div>
+ <table class="meta-tabela">
+ <thead><tr><th>Prazo</th><th>Meta mínima</th><th>Motivo</th></tr></thead>
+ <tbody id="c_meta_rows">
+ <tr data-min="0" data-max="15" data-meta="8" ><td>Até 15 dias</td><td>8%</td><td>Pagamento rápido</td></tr>
+ <tr data-min="16" data-max="30" data-meta="12" ><td>16 a 30 dias</td><td>12%</td><td>Prazo curto</td></tr>
+ <tr data-min="31" data-max="50" data-meta="14" ><td>31 a 50 dias</td><td>14%</td><td>Prazo médio</td></tr>
+ <tr data-min="51" data-max="9999" data-meta="18"><td>Acima de 50 dias</td><td>18%</td><td>Prazo longo — custo alto</td></tr>
+ </tbody>
+ </table>
+ </div>
+ </div>
 
-  <!-- Resultado Final — Completo -->
-  <div class="card">
-    <div class="card-header result">✅ Resultado Final</div>
-    <div class="card-body">
-      <div class="result-grid">
-        <div class="result-item" id="c_mg_card">
-          <div class="rl">Margem Real (R$)</div>
-          <div class="rv" id="c_mg_val">—</div>
-        </div>
-        <div class="result-item" id="c_pct_card">
-          <div class="rl">Margem Real (%)</div>
-          <div class="rv" id="c_pct_val">—</div>
-        </div>
-        <div class="result-item" style="grid-column:1/-1">
-          <div class="rl">Total de Custos</div>
-          <div class="rv" id="c_custos_val" style="font-size:15px;color:#DC2626">—</div>
-        </div>
-      </div>
-      <div class="status-box idle" id="c_status">Preencha o frete e o prazo para calcular</div>
-    </div>
-    <p class="note">Meta CFO: Resultado Final ≥ 12% do Frete Empresa</p>
-  </div>
+ <!-- Resultado Final — Completo -->
+ <div class="card">
+ <div class="card-header result"> Resultado Final</div>
+ <div class="card-body">
+ <div class="result-grid">
+ <div class="result-item" id="c_mg_card">
+ <div class="rl">Margem Real (R$)</div>
+ <div class="rv" id="c_mg_val">—</div>
+ </div>
+ <div class="result-item" id="c_pct_card">
+ <div class="rl">Margem Real (%)</div>
+ <div class="rv" id="c_pct_val">—</div>
+ </div>
+ <div class="result-item" style="grid-column:1/-1">
+ <div class="rl">Total de Custos</div>
+ <div class="rv" id="c_custos_val" style="font-size:15px;color:#DC2626">—</div>
+ </div>
+ </div>
+ <div class="status-box idle" id="c_status">Preencha o frete e o prazo para calcular</div>
+ </div>
+ <p class="note">Meta CFO: Resultado Final ≥ 12% do Frete Empresa</p>
+ </div>
 
 </div>
 </div>
 
 <script>
-// ── UTILS ──────────────────────────────────────────────────────────────────
-const fmt  = v => 'R$ ' + v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+// UTILS 
+const fmt = v => 'R$ ' + v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 const fmtP = v => (v * 100).toFixed(1).replace('.', ',') + '%';
-const val  = id => parseFloat(document.getElementById(id).value) || 0;
+const val = id => parseFloat(document.getElementById(id).value) || 0;
 
 function setResult(cardId, valId, pctId, statusId, margem, pct, frete) {
-  const vEl = document.getElementById(valId);
-  const pEl = document.getElementById(pctId);
-  const sEl = document.getElementById(statusId);
-  const cEl = document.getElementById(cardId);
-  if (frete <= 0) {
-    vEl.textContent = '—'; pEl.textContent = '—';
-    sEl.className = 'status-box idle'; sEl.textContent = 'Preencha o frete para calcular';
-    if (cEl) cEl.className = 'result-item';
-    return;
-  }
-  vEl.textContent = fmt(margem);
-  pEl.textContent = fmtP(pct);
-  const ok = pct >= 0.12;
-  if (cEl) cEl.className = 'result-item ' + (ok ? 'main' : 'danger');
-  sEl.className = 'status-box ' + (ok ? 'ok' : 'warn');
-  sEl.textContent = ok
-    ? '✓  ACIMA DA META (12%) — Frete aprovado'
-    : '✗  ABAIXO DA META (12%) — Revisar valores';
+ const vEl = document.getElementById(valId);
+ const pEl = document.getElementById(pctId);
+ const sEl = document.getElementById(statusId);
+ const cEl = document.getElementById(cardId);
+ if (frete <= 0) {
+ vEl.textContent = '—'; pEl.textContent = '—';
+ sEl.className = 'status-box idle'; sEl.textContent = 'Preencha o frete para calcular';
+ if (cEl) cEl.className = 'result-item';
+ return;
+ }
+ vEl.textContent = fmt(margem);
+ pEl.textContent = fmtP(pct);
+ const ok = pct >= 0.12;
+ if (cEl) cEl.className = 'result-item ' + (ok ? 'main' : 'danger');
+ sEl.className = 'status-box ' + (ok ? 'ok' : 'warn');
+ sEl.textContent = ok
+ ? ' ACIMA DA META (12%) — Frete aprovado'
+ : ' ABAIXO DA META (12%) — Revisar valores';
 }
 
 function setSuffix(id, v, frete) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = frete > 0 ? fmtP(v / frete) : '—';
+ const el = document.getElementById(id);
+ if (!el) return;
+ el.textContent = frete > 0 ? fmtP(v / frete) : '—';
 }
 
-// ── TAB ────────────────────────────────────────────────────────────────────
+// TAB 
 function switchTab(n) {
-  document.querySelectorAll('.panel').forEach((p, i) => p.className = 'panel' + (i === n ? ' active' : ''));
-  document.querySelectorAll('.tab').forEach((t, i) => t.className = 'tab' + (i === n ? ' active' : ''));
+ document.querySelectorAll('.panel').forEach((p, i) => p.className = 'panel' + (i === n ? ' active' : ''));
+ document.querySelectorAll('.tab').forEach((t, i) => t.className = 'tab' + (i === n ? ' active' : ''));
 }
 
-// ── SIMPLES ────────────────────────────────────────────────────────────────
+// SIMPLES 
 function togglePedS() {
-  const chk = document.getElementById('s_ped_chk').checked;
-  document.getElementById('s_ped_wrap').className = 'cond-field' + (chk ? ' visible' : '');
-  if (!chk) document.getElementById('s_ped').value = '';
+ const chk = document.getElementById('s_ped_chk').checked;
+ document.getElementById('s_ped_wrap').className = 'cond-field' + (chk ? ' visible' : '');
+ if (!chk) document.getElementById('s_ped').value = '';
 }
 function calcSimples() {
-  const frete = val('s_frete');
-  const moto  = val('s_moto');
-  const ped   = document.getElementById('s_ped_chk').checked ? val('s_ped') : 0;
-  const mgBruta = frete - moto - ped;
+ const frete = val('s_frete');
+ const moto = val('s_moto');
+ const ped = document.getElementById('s_ped_chk').checked ? val('s_ped') : 0;
+ const mgBruta = frete - moto - ped;
 
-  setSuffix('s_moto_pct', moto, frete);
-  setSuffix('s_ped_pct',  ped,  frete);
+ setSuffix('s_moto_pct', moto, frete);
+ setSuffix('s_ped_pct', ped, frete);
 
-  // Custo do prazo + meta dinâmica — calculado ANTES do resultado final
-  const { custoR: custoPrazo, meta: metaS } = calcPrazo('s', frete);
-  const metaMinS = metaS / 100;
+ // Custo do prazo + meta dinâmica — calculado ANTES do resultado final
+ const { custoR: custoPrazo, meta: metaS } = calcPrazo('s', frete);
+ const metaMinS = metaS / 100;
 
-  // Resultado Final = margem bruta − custo do prazo
-  const mgFinal = mgBruta - custoPrazo;
-  const pct     = frete > 0 ? mgFinal / frete : 0;
-  const okS     = pct >= metaMinS && frete > 0;
+ // Resultado Final = margem bruta − custo do prazo
+ const mgFinal = mgBruta - custoPrazo;
+ const pct = frete > 0 ? mgFinal / frete : 0;
+ const okS = pct >= metaMinS && frete > 0;
 
-  const vEl = document.getElementById('s_mg_val');
-  const pEl = document.getElementById('s_pct_val');
-  const sEl = document.getElementById('s_status');
-  if (frete <= 0) {
-    vEl.textContent = '—'; pEl.textContent = '—';
-    sEl.className = 'status-box idle'; sEl.textContent = 'Preencha o frete e o prazo para calcular';
-    ['s_mg_card','s_pct_card'].forEach(id => document.getElementById(id).className = 'result-item');
-  } else {
-    vEl.textContent = fmt(mgFinal);
-    pEl.textContent = fmtP(pct);
-    ['s_mg_card','s_pct_card'].forEach(id => {
-      document.getElementById(id).className = 'result-item ' + (okS ? 'main' : 'danger');
-    });
-    sEl.className = 'status-box ' + (okS ? 'ok' : 'warn');
-    sEl.textContent = okS
-      ? '✓  ACIMA DA META (' + metaS + '%) — Frete aprovado para este prazo'
-      : '✗  ABAIXO DA META (' + metaS + '%) — Revisar valores ou prazo';
-  }
+ const vEl = document.getElementById('s_mg_val');
+ const pEl = document.getElementById('s_pct_val');
+ const sEl = document.getElementById('s_status');
+ if (frete <= 0) {
+ vEl.textContent = '—'; pEl.textContent = '—';
+ sEl.className = 'status-box idle'; sEl.textContent = 'Preencha o frete e o prazo para calcular';
+ ['s_mg_card','s_pct_card'].forEach(id => document.getElementById(id).className = 'result-item');
+ } else {
+ vEl.textContent = fmt(mgFinal);
+ pEl.textContent = fmtP(pct);
+ ['s_mg_card','s_pct_card'].forEach(id => {
+ document.getElementById(id).className = 'result-item ' + (okS ? 'main' : 'danger');
+ });
+ sEl.className = 'status-box ' + (okS ? 'ok' : 'warn');
+ sEl.textContent = okS
+ ? ' ACIMA DA META (' + metaS + '%) — Frete aprovado para este prazo'
+ : ' ABAIXO DA META (' + metaS + '%) — Revisar valores ou prazo';
+ }
 }
 
-// ── COMPLETO ───────────────────────────────────────────────────────────────
+// COMPLETO 
 function togglePedC() {
-  const chk = document.getElementById('c_ped_chk').checked;
-  document.getElementById('c_ped_wrap').className = 'cond-field' + (chk ? ' visible' : '');
-  if (!chk) { document.getElementById('c_ped').value = ''; calcCompleto(); }
+ const chk = document.getElementById('c_ped_chk').checked;
+ document.getElementById('c_ped_wrap').className = 'cond-field' + (chk ? ' visible' : '');
+ if (!chk) { document.getElementById('c_ped').value = ''; calcCompleto(); }
 }
 function toggleIcms() {
-  const chk = document.getElementById('c_icms_chk').checked;
-  document.getElementById('c_icms_wrap').className = 'icms-inputs' + (chk ? ' visible' : '');
-  if (!chk) { document.getElementById('c_icms_pct').value = ''; calcCompleto(); }
+ const chk = document.getElementById('c_icms_chk').checked;
+ document.getElementById('c_icms_wrap').className = 'icms-inputs' + (chk ? ' visible' : '');
+ if (!chk) { document.getElementById('c_icms_pct').value = ''; calcCompleto(); }
 }
 
 function calcCompleto() {
-  const frete   = val('c_frete');
-  const nota    = val('c_nota');
-  const moto    = val('c_moto');
-  const ped     = document.getElementById('c_ped_chk').checked ? val('c_ped') : 0;
-  const corretor= val('c_corretor');
-  const diaria  = val('c_diaria');
+ const frete = val('c_frete');
+ const nota = val('c_nota');
+ const moto = val('c_moto');
+ const ped = document.getElementById('c_ped_chk').checked ? val('c_ped') : 0;
+ const corretor= val('c_corretor');
+ const diaria = val('c_diaria');
 
-  // ICMS
-  let icms = 0;
-  if (document.getElementById('c_icms_chk').checked) {
-    const icmsPct = parseFloat(document.getElementById('c_icms_pct').value) || 0;
-    icms = frete * (icmsPct / 100);
-    document.getElementById('c_icms_val').textContent = frete > 0 ? fmt(icms) : '—';
-  } else {
-    document.getElementById('c_icms_val').textContent = '—';
-  }
+ // ICMS
+ let icms = 0;
+ if (document.getElementById('c_icms_chk').checked) {
+ const icmsPct = parseFloat(document.getElementById('c_icms_pct').value) || 0;
+ icms = frete * (icmsPct / 100);
+ document.getElementById('c_icms_val').textContent = frete > 0 ? fmt(icms) : '—';
+ } else {
+ document.getElementById('c_icms_val').textContent = '—';
+ }
 
-  // Imposto Federal — % sobre frete empresa
-  const impPct = parseFloat(document.getElementById('c_imp_pct').value) || 0;
-  const imp = frete * (impPct / 100);
-  document.getElementById('c_imp_val').textContent = frete > 0 && impPct > 0 ? fmt(imp) : '—';
+ // Imposto Federal — % sobre frete empresa
+ const impPct = parseFloat(document.getElementById('c_imp_pct').value) || 0;
+ const imp = frete * (impPct / 100);
+ document.getElementById('c_imp_val').textContent = frete > 0 && impPct > 0 ? fmt(imp) : '—';
 
-  // Seguro (sobre nota fiscal)
-  const seg_rcf  = nota * 0.00013;
-  const seg_rcdc = nota * 0.00013;
-  const seg_total= nota * 0.00026;
-  document.getElementById('seg_rcf').textContent   = nota > 0 ? fmt(seg_rcf)   : '—';
-  document.getElementById('seg_rcdc').textContent  = nota > 0 ? fmt(seg_rcdc)  : '—';
-  document.getElementById('seg_total').textContent = nota > 0 ? fmt(seg_total) : '—';
+ // Seguro (sobre nota fiscal)
+ const seg_rcf = nota * 0.00013;
+ const seg_rcdc = nota * 0.00013;
+ const seg_total= nota * 0.00026;
+ document.getElementById('seg_rcf').textContent = nota > 0 ? fmt(seg_rcf) : '—';
+ document.getElementById('seg_rcdc').textContent = nota > 0 ? fmt(seg_rcdc) : '—';
+ document.getElementById('seg_total').textContent = nota > 0 ? fmt(seg_total) : '—';
 
-  // Sufixes %
-  setSuffix('c_moto_pct',    moto,     frete);
-  setSuffix('c_ped_pct',     ped,      frete);
-  setSuffix('c_corretor_pct',corretor, frete);
-  setSuffix('c_diaria_pct',  diaria,   frete);
+ // Sufixes %
+ setSuffix('c_moto_pct', moto, frete);
+ setSuffix('c_ped_pct', ped, frete);
+ setSuffix('c_corretor_pct',corretor, frete);
+ setSuffix('c_diaria_pct', diaria, frete);
 
-  // Resultado parcial (antes do desconto 17%)
-  const custosParcial   = moto + ped + icms + imp + corretor + diaria + seg_total;
-  const resultParcial   = frete - custosParcial;
-  const desconto17      = resultParcial > 0 ? resultParcial * 0.17 : 0;
-  const resultado       = resultParcial - desconto17;
-  const totalCustos     = custosParcial + desconto17;
-  const pct             = frete > 0 ? resultado / frete : 0;
+ // Resultado parcial (antes do desconto 17%)
+ const custosParcial = moto + ped + icms + imp + corretor + diaria + seg_total;
+ const resultParcial = frete - custosParcial;
+ const desconto17 = resultParcial > 0 ? resultParcial * 0.17 : 0;
+ const resultado = resultParcial - desconto17;
+ const totalCustos = custosParcial + desconto17;
+ const pct = frete > 0 ? resultado / frete : 0;
 
-  document.getElementById('c_resultado_parcial').textContent = frete > 0 ? fmt(resultParcial) : '—';
-  document.getElementById('c_desconto_17').textContent       = frete > 0 && resultParcial > 0 ? '− ' + fmt(desconto17) : '—';
+ document.getElementById('c_resultado_parcial').textContent = frete > 0 ? fmt(resultParcial) : '—';
+ document.getElementById('c_desconto_17').textContent = frete > 0 && resultParcial > 0 ? '− ' + fmt(desconto17) : '—';
 
-  // Custo do prazo + meta dinâmica — calculado ANTES do resultado final
-  const { custoR: custoPrazo, meta: metaC } = calcPrazo('c', frete);
-  const metaMinC     = metaC / 100;
-  const resultadoFinal   = resultado - custoPrazo;
-  const pctFinal         = frete > 0 ? resultadoFinal / frete : 0;
-  const totalCustosFinal = totalCustos + custoPrazo;
+ // Custo do prazo + meta dinâmica — calculado ANTES do resultado final
+ const { custoR: custoPrazo, meta: metaC } = calcPrazo('c', frete);
+ const metaMinC = metaC / 100;
+ const resultadoFinal = resultado - custoPrazo;
+ const pctFinal = frete > 0 ? resultadoFinal / frete : 0;
+ const totalCustosFinal = totalCustos + custoPrazo;
 
-  document.getElementById('c_custos_val').textContent = frete > 0 ? fmt(totalCustosFinal) : '—';
-  document.getElementById('c_mg_val').textContent     = frete > 0 ? fmt(resultadoFinal)   : '—';
-  document.getElementById('c_pct_val').textContent    = frete > 0 ? fmtP(pctFinal)        : '—';
+ document.getElementById('c_custos_val').textContent = frete > 0 ? fmt(totalCustosFinal) : '—';
+ document.getElementById('c_mg_val').textContent = frete > 0 ? fmt(resultadoFinal) : '—';
+ document.getElementById('c_pct_val').textContent = frete > 0 ? fmtP(pctFinal) : '—';
 
-  // Status final com meta dinâmica
-  const ok  = pctFinal >= metaMinC && frete > 0;
-  const sEl = document.getElementById('c_status');
-  ['c_mg_card','c_pct_card'].forEach(id => {
-    if (frete > 0) document.getElementById(id).className = 'result-item ' + (ok ? 'main' : 'danger');
-    else document.getElementById(id).className = 'result-item';
-  });
-  if (frete <= 0) {
-    sEl.className = 'status-box idle'; sEl.textContent = 'Preencha o frete e o prazo para calcular';
-  } else {
-    sEl.className = 'status-box ' + (ok ? 'ok' : 'warn');
-    sEl.textContent = ok
-      ? '✓  ACIMA DA META (' + metaC + '%) — Frete aprovado para este prazo'
-      : '✗  ABAIXO DA META (' + metaC + '%) — Revisar valores ou prazo';
-  }
+ // Status final com meta dinâmica
+ const ok = pctFinal >= metaMinC && frete > 0;
+ const sEl = document.getElementById('c_status');
+ ['c_mg_card','c_pct_card'].forEach(id => {
+ if (frete > 0) document.getElementById(id).className = 'result-item ' + (ok ? 'main' : 'danger');
+ else document.getElementById(id).className = 'result-item';
+ });
+ if (frete <= 0) {
+ sEl.className = 'status-box idle'; sEl.textContent = 'Preencha o frete e o prazo para calcular';
+ } else {
+ sEl.className = 'status-box ' + (ok ? 'ok' : 'warn');
+ sEl.textContent = ok
+ ? ' ACIMA DA META (' + metaC + '%) — Frete aprovado para este prazo'
+ : ' ABAIXO DA META (' + metaC + '%) — Revisar valores ou prazo';
+ }
 }
 
-// ── PRAZO DE RECEBIMENTO ───────────────────────────────────────────────────
+// PRAZO DE RECEBIMENTO 
 // Retorna { custoR, meta } onde meta é a % mínima aceitável para o prazo informado.
 function calcPrazo(prefix, frete) {
-  const prazo    = parseFloat(document.getElementById(prefix + '_prazo').value) || 0;
-  const custoPct = prazo * 0.00028;        // 0,028% ao dia
-  const custoR   = frete * custoPct;
+ const prazo = parseFloat(document.getElementById(prefix + '_prazo').value) || 0;
+ const custoPct = prazo * 0.00028; // 0,028% ao dia
+ const custoR = frete * custoPct;
 
-  const barEl    = document.getElementById(prefix + '_prazo_bar');
-  const custoEl  = document.getElementById(prefix + '_custo_prazo');
-  const pctEl    = document.getElementById(prefix + '_custo_prazo_pct');
-  const metaVal  = document.getElementById(prefix + '_meta_val');
-  const metaTag  = document.getElementById(prefix + '_meta_tag');
-  const rows     = document.querySelectorAll('#' + prefix + '_meta_rows tr');
+ const barEl = document.getElementById(prefix + '_prazo_bar');
+ const custoEl = document.getElementById(prefix + '_custo_prazo');
+ const pctEl = document.getElementById(prefix + '_custo_prazo_pct');
+ const metaVal = document.getElementById(prefix + '_meta_val');
+ const metaTag = document.getElementById(prefix + '_meta_tag');
+ const rows = document.querySelectorAll('#' + prefix + '_meta_rows tr');
 
-  // Determina meta por faixa de prazo
-  const faixas = [
-    { min:  0, max: 15,   meta: 8,  tag: 'Pagamento rápido' },
-    { min: 16, max: 30,   meta: 12, tag: 'Prazo curto'      },
-    { min: 31, max: 50,   meta: 14, tag: 'Prazo médio'      },
-    { min: 51, max: 9999, meta: 18, tag: 'Prazo longo'      },
-  ];
-  const faixa = prazo > 0
-    ? faixas.find(f => prazo >= f.min && prazo <= f.max) || faixas[2]
-    : faixas[2];
+ // Determina meta por faixa de prazo
+ const faixas = [
+ { min: 0, max: 15, meta: 8, tag: 'Pagamento rápido' },
+ { min: 16, max: 30, meta: 12, tag: 'Prazo curto' },
+ { min: 31, max: 50, meta: 14, tag: 'Prazo médio' },
+ { min: 51, max: 9999, meta: 18, tag: 'Prazo longo' },
+ ];
+ const faixa = prazo > 0
+ ? faixas.find(f => prazo >= f.min && prazo <= f.max) || faixas[2]
+ : faixas[2];
 
-  // Destaca linha ativa na tabela
-  rows.forEach(r => {
-    r.className = (prazo >= +r.dataset.min && prazo <= +r.dataset.max) ? 'ativa' : '';
-  });
+ // Destaca linha ativa na tabela
+ rows.forEach(r => {
+ r.className = (prazo >= +r.dataset.min && prazo <= +r.dataset.max) ? 'ativa' : '';
+ });
 
-  if (metaVal) metaVal.textContent = faixa.meta + '%';
-  if (metaTag) metaTag.textContent = faixa.tag;
+ if (metaVal) metaVal.textContent = faixa.meta + '%';
+ if (metaTag) metaTag.textContent = faixa.tag;
 
-  if (frete <= 0 || prazo <= 0) {
-    if (custoEl) custoEl.textContent = '—';
-    if (pctEl)   pctEl.textContent   = '—';
-    if (barEl)   barEl.style.width   = '0%';
-    return { custoR: 0, meta: faixa.meta };
-  }
+ if (frete <= 0 || prazo <= 0) {
+ if (custoEl) custoEl.textContent = '—';
+ if (pctEl) pctEl.textContent = '—';
+ if (barEl) barEl.style.width = '0%';
+ return { custoR: 0, meta: faixa.meta };
+ }
 
-  if (custoEl) custoEl.textContent = fmt(custoR);
-  if (pctEl)   pctEl.textContent   = fmtP(custoPct) + ' do frete';
-  if (barEl)   barEl.style.width   = Math.min(custoPct / 0.05 * 100, 100) + '%';
+ if (custoEl) custoEl.textContent = fmt(custoR);
+ if (pctEl) pctEl.textContent = fmtP(custoPct) + ' do frete';
+ if (barEl) barEl.style.width = Math.min(custoPct / 0.05 * 100, 100) + '%';
 
-  return { custoR, meta: faixa.meta };
+ return { custoR, meta: faixa.meta };
 }
 </script>
 </body>
