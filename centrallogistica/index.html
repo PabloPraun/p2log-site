@@ -166,125 +166,15 @@
       <div style="height:1.5px;background:linear-gradient(90deg,#D4A017,rgba(212,160,23,0.2));margin-top:2px;"></div>
     </div>
     <div>
-      <h1 style="font-size:18px;font-weight:700;letter-spacing:.5px;">Calculadora de Frete</h1>
+      <h1 style="font-size:18px;font-weight:700;letter-spacing:.5px;">Calculadora de Frete — Simulador Completo</h1>
       <p>Tecnologia · Segurança · Controle em Logística &nbsp;|&nbsp; <a href="https://p2log.com.br" style="color:#D4A017;text-decoration:none;">p2log.com.br</a></p>
     </div>
   </div>
 </div>
 
-<div class="tabs">
-  <div class="tab active" onclick="switchTab(0)">Simulador Simples</div>
-  <div class="tab" onclick="switchTab(1)">Simulador Completo</div>
-</div>
-
-<!-- ═══════════════════ ABA 1 — SIMPLES ═══════════════════════════════════ -->
-<div id="panel0" class="panel active">
-<div class="container">
-
-  <div class="card">
-    <div class="card-header receita">📦 Receita</div>
-    <div class="card-body">
-      <div class="field">
-        <label>Frete Empresa <small>Valor cobrado do cliente</small></label>
-        <div class="input-wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="s_frete" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcSimples()">
-          <span class="suffix">—</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header custo">💸 Custos</div>
-    <div class="card-body">
-      <div class="field">
-        <label>Frete Motorista <small>Valor pago ao motorista</small></label>
-        <div class="input-wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="s_moto" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcSimples()">
-          <span class="suffix" id="s_moto_pct">—</span>
-        </div>
-      </div>
-
-      <div class="toggle-row">
-        <label>Tem pedágio?</label>
-        <label class="toggle-switch">
-          <input type="checkbox" id="s_ped_chk" onchange="togglePedS(); calcSimples()">
-          <span class="slider"></span>
-        </label>
-        <div class="cond-field" id="s_ped_wrap">
-          <span class="prefix">R$</span>
-          <input type="number" id="s_ped" class="mid" placeholder="0,00" step="0.01" min="0" oninput="calcSimples()">
-          <span class="suffix" id="s_ped_pct">—</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Prazo de Recebimento — Simples -->
-  <div class="card">
-    <div class="card-header prazo">📅 Prazo de Recebimento</div>
-    <div class="card-body">
-      <div class="prazo-dias">
-        <label>Prazo de recebimento <small style="font-weight:400;color:#9CA3AF">0,028% ao dia sobre o Frete Empresa</small></label>
-        <div class="input-wrap">
-          <input type="number" id="s_prazo" class="left" placeholder="30" min="0" step="1" style="width:90px" oninput="calcSimples()">
-          <span class="suffix">dias</span>
-        </div>
-      </div>
-      <div class="prazo-bar"><div class="prazo-bar-fill" id="s_prazo_bar" style="width:0%"></div></div>
-      <div class="prazo-grid">
-        <div class="prazo-item">
-          <div class="pl">Custo Financeiro (R$)</div>
-          <div class="pv" id="s_custo_prazo">—</div>
-        </div>
-        <div class="prazo-item">
-          <div class="pl">Custo Financeiro (%)</div>
-          <div class="pv" id="s_custo_prazo_pct">—</div>
-        </div>
-      </div>
-      <div class="meta-badge">
-        <span class="mb-label">Meta mínima aplicada para este prazo:</span>
-        <span class="mb-val" id="s_meta_val">12%</span>
-        <span class="mb-tag" id="s_meta_tag">padrão</span>
-      </div>
-      <table class="meta-tabela">
-        <thead><tr><th>Prazo</th><th>Meta mínima</th><th>Motivo</th></tr></thead>
-        <tbody id="s_meta_rows">
-          <tr data-min="0"  data-max="15"  data-meta="8"  ><td>Até 15 dias</td><td>8%</td><td>Pagamento rápido</td></tr>
-          <tr data-min="16" data-max="30"  data-meta="12" ><td>16 a 30 dias</td><td>12%</td><td>Prazo curto</td></tr>
-          <tr data-min="31" data-max="50"  data-meta="14" ><td>31 a 50 dias</td><td>14%</td><td>Prazo médio</td></tr>
-          <tr data-min="51" data-max="9999" data-meta="18"><td>Acima de 50 dias</td><td>18%</td><td>Prazo longo — custo alto</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Resultado Final — Simples -->
-  <div class="card">
-    <div class="card-header result">✅ Resultado Final</div>
-    <div class="card-body">
-      <div class="result-grid">
-        <div class="result-item" id="s_mg_card">
-          <div class="rl">Margem Real (R$)</div>
-          <div class="rv" id="s_mg_val">—</div>
-        </div>
-        <div class="result-item" id="s_pct_card">
-          <div class="rl">Margem Real (%)</div>
-          <div class="rv" id="s_pct_val">—</div>
-        </div>
-      </div>
-      <div class="status-box idle" id="s_status">Preencha o frete e o prazo para calcular</div>
-    </div>
-    <p class="note">Meta CFO: Resultado Final ≥ 12% do Frete Empresa</p>
-  </div>
-
-</div>
-</div>
 
 <!-- ═══════════════════ ABA 2 — COMPLETO ══════════════════════════════════ -->
-<div id="panel1" class="panel">
+<div id="panel1" class="panel active">
 <div class="container">
 
   <div class="card">
