@@ -717,16 +717,15 @@ function calcPrazo(prefix, frete) {
     <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
         <div>
-          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Vínculo</div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Tipo de Transportador</div>
           <select id="av-vinculo" onchange="avCalc()" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#f5f3ef;font-size:12px;padding:9px 10px;border-radius:4px;outline:none;">
             <option value="">Selecione...</option>
-            <option value="frota">Frota (CNPJ) — +1,5 pts</option>
-            <option value="tac">TAC autônomo (CPF) — +1,0 pts</option>
-            <option value="etc">ETC terceiro — +0,5 pts</option>
+            <option value="tac">TAC — Transportador Autônomo de Cargas (+1,5 pts)</option>
+            <option value="etc">ETC — Empresa de Transporte de Cargas (+1,0 pts)</option>
           </select>
         </div>
         <div>
-          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Carroceria</div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Tipo de Veículo</div>
           <select id="av-carroceria" onchange="avOnCarroceria()" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#f5f3ef;font-size:12px;padding:9px 10px;border-radius:4px;outline:none;">
             <option value="">Selecione...</option>
             <option value="bau">Baú</option>
@@ -793,6 +792,190 @@ function calcPrazo(prefix, frete) {
 </div>
 </div>
 </div>
+
+
+<script>
+// ═══════════════════════════════════
+// AVALIADOR DE MOTORISTA — JS
+// ═══════════════════════════════════
+
+function avCheckHtml(id, label, pts) {
+  var ptsLabel = pts > 0
+    ? '<span id="avpts-'+id+'" style="font-size:11px;font-weight:600;color:#555;">+'+pts.toFixed(1).replace('.',',')+' pts</span>'
+    : '<span style="font-size:10px;color:#ef5350;font-weight:700;">obrig.</span>';
+  return '<label id="ci-av-'+id+'" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0a0a0a;border:1px solid #222;border-radius:4px;cursor:pointer;">'
+    +'<input type="checkbox" id="av-'+id+'" onchange="avCalc()" style="width:15px;height:15px;accent-color:#D4A017;">'
+    +'<span style="flex:1;font-size:12px;color:#f5f3ef;">'+label+'</span>'
+    +ptsLabel+'</label>';
+}
+
+var AV_CARGA = {
+  granel:   { title:'Granel seco — soja, milho, farelo', items:[
+    {id:'g1',label:'Referência de granel seco (últimos 3 meses)',pts:1.0},
+    {id:'g2',label:'Foto da lona e assoalho enviada',pts:0.5},
+    {id:'g3',label:'Graneleiro ou grade baixa com lona íntegra',pts:0.5}]},
+  alimento: { title:'Alimento industrializado', items:[
+    {id:'a1',label:'Referência específica de alimentos (últimos 3 meses)',pts:1.0},
+    {id:'a2',label:'3 ou mais CT-es de alimentos ou equiparados',pts:1.5},
+    {id:'a3',label:'Sem produto de limpeza/químico na mesma carga (ANVISA)',pts:0.5}]},
+  bebida:   { title:'Bebidas — água, refrigerante, cerveja, suco', items:[
+    {id:'b1',label:'Referência específica de bebidas (últimos 3 meses)',pts:1.0},
+    {id:'b2',label:'3 ou mais CT-es de bebidas',pts:1.5},
+    {id:'b3',label:'Carroceria adequada (baú, sider ou grade com proteção)',pts:0.5}]},
+  limpeza:  { title:'Produtos de limpeza', items:[
+    {id:'l1',label:'Referência de produto de limpeza/higiene (últimos 3 meses)',pts:1.0},
+    {id:'l2',label:'Sem alimento na mesma carga (ANVISA)',pts:0.5},
+    {id:'l3',label:'Produto segregado e embalagem compatível',pts:0.5}]},
+  valiosa:  { title:'Carga valiosa — eletrônico, medicamento, cosmético', items:[
+    {id:'v1',label:'Referência de carga valiosa (últimos 3 meses)',pts:1.5},
+    {id:'v3',label:'Sem viagem noturna em região de risco (acordado com GR)',pts:0.5},
+    {id:'v4',label:'Motorista com histórico limpo e referência confirmada',pts:1.0}]}
+};
+
+function avInit() {
+  var veiculo = [
+    {id:'crlv',label:'CRLV em nome do motorista ou empresa',pts:0.5},
+    {id:'foto-assoalho',label:'Foto do assoalho / interior aprovada',pts:0.5},
+    {id:'tag-pedagio',label:'Possui tag de pedágio ativa',pts:0.5}
+  ];
+  var motorista = [
+    {id:'cnh-local',label:'CNH próxima à cidade de origem ou destino',pts:0.5},
+    {id:'antt',label:'TAC registrado e ativo na ANTT',pts:1.0},
+    {id:'ref-recente',label:'Referência recente (últimos 3 meses)',pts:0.5},
+    {id:'habilitacao',label:'CNH com mais de 5 anos de habilitação',pts:0.5},
+    {id:'foto-cnh',label:'Foto segurando a CNH (frente e verso legível)',pts:0.5},
+    {id:'foto-veiculo',label:'Foto na frente do veículo mostrando rosto e placa',pts:0.5}
+  ];
+  document.getElementById('av-checks-veiculo').innerHTML = veiculo.map(function(c){return avCheckHtml(c.id,c.label,c.pts);}).join('');
+  document.getElementById('av-checks-motorista').innerHTML = motorista.map(function(c){return avCheckHtml(c.id,c.label,c.pts);}).join('');
+}
+
+function avOnCarga() {
+  var carga = document.getElementById('av-carga').value;
+  var cfg = AV_CARGA[carga];
+  if (!cfg) {
+    document.getElementById('av-carga-title').textContent = 'Critérios da carga — selecione o tipo acima';
+    document.getElementById('av-checks-carga').innerHTML = '<div style="font-size:12px;color:#555;">Selecione o tipo de carga na seção 2.</div>';
+    avCalc(); return;
+  }
+  document.getElementById('av-carga-title').textContent = cfg.title;
+  document.getElementById('av-checks-carga').innerHTML = cfg.items.map(function(c){return avCheckHtml(c.id,c.label,c.pts);}).join('');
+  avCalc();
+}
+
+function avStyle(id, ok) {
+  var el = document.getElementById('ci-av-'+id);
+  if (!el) return;
+  el.style.borderColor = ok ? '#4caf50' : '#222';
+  el.style.background = ok ? 'rgba(76,175,80,0.06)' : '#0a0a0a';
+}
+
+function avCalc() {
+  var grOk = document.getElementById('av-gr').checked;
+  var destino = document.getElementById('av-destino').value;
+  var valor = parseFloat(document.getElementById('av-valor').value) || 0;
+  var vinculo = document.getElementById('av-vinculo').value;
+  var ano = parseFloat(document.getElementById('av-ano').value) || 0;
+  var carga = document.getElementById('av-carga').value;
+
+  var ciGr = document.getElementById('ci-av-gr');
+  ciGr.style.borderColor = grOk ? '#4caf50' : '#ef5350';
+  ciGr.style.background = grOk ? 'rgba(76,175,80,0.06)' : 'rgba(239,83,80,0.06)';
+
+  var score = 0;
+  var bloqueado = false;
+  var motivo = '';
+
+  if (!grOk) { bloqueado = true; motivo = 'gr'; }
+
+  var limiteRJ = destino === 'rj' && valor > 300000;
+  var exigeRast = (destino === 'rj' && valor >= 100000) || (destino === 'outros' && valor >= 200000);
+  var temRast = document.getElementById('av-rast').checked;
+
+  document.getElementById('av-alert-rj').style.display = limiteRJ ? 'block' : 'none';
+  document.getElementById('av-alert-rast').style.display = (exigeRast && !temRast && !limiteRJ) ? 'block' : 'none';
+
+  var ciRast = document.getElementById('ci-av-rast');
+  ciRast.style.display = exigeRast ? 'flex' : 'none';
+  if (exigeRast) {
+    ciRast.style.borderColor = temRast ? '#4caf50' : '#ef5350';
+    ciRast.style.background = temRast ? 'rgba(76,175,80,0.06)' : 'rgba(239,83,80,0.06)';
+  }
+
+  if (!bloqueado && limiteRJ) { bloqueado = true; motivo = 'limite-rj'; }
+  if (!bloqueado && exigeRast && !temRast) { bloqueado = true; motivo = 'rastreador'; }
+
+  if (!bloqueado) {
+    if (vinculo === 'tac') score += 1.5;
+    else if (vinculo === 'etc') score += 1.0;
+    score += ano;
+
+    var ids = ['crlv','foto-assoalho','tag-pedagio','cnh-local','antt','ref-recente','habilitacao','foto-cnh','foto-veiculo'];
+    var pts = {crlv:0.5,'foto-assoalho':0.5,'tag-pedagio':0.5,'cnh-local':0.5,antt:1.0,'ref-recente':0.5,habilitacao:0.5,'foto-cnh':0.5,'foto-veiculo':0.5};
+    ids.forEach(function(id){
+      var el = document.getElementById('av-'+id);
+      if (el && el.checked) score += pts[id] || 0;
+      avStyle(id, el && el.checked);
+    });
+
+    if (carga && AV_CARGA[carga]) {
+      AV_CARGA[carga].items.forEach(function(item){
+        var el = document.getElementById('av-'+item.id);
+        if (el && el.checked) score += item.pts;
+        avStyle(item.id, el && el.checked);
+      });
+    }
+  }
+
+  score = Math.min(score, 10.0);
+  var pct = (score / 10 * 100).toFixed(1);
+
+  document.getElementById('av-score-num').textContent = score.toFixed(1).replace('.',',');
+  var bar = document.getElementById('av-score-bar');
+  bar.style.width = (bloqueado ? 100 : pct) + '%';
+
+  var alertFinal = document.getElementById('av-alert-final');
+  var status = document.getElementById('av-score-status');
+  var btnR = document.getElementById('av-btn-recusa');
+  var btnG = document.getElementById('av-btn-gestao');
+  var btnP = document.getElementById('av-btn-pdf');
+  btnR.style.display = btnG.style.display = btnP.style.display = 'none';
+
+  function setAlert(bg, border, txt, msg) {
+    alertFinal.style.cssText = 'padding:12px 14px;border-radius:0 4px 4px 0;border-left:3px solid '+border+';background:'+bg+';font-size:12px;color:'+txt+';margin-bottom:14px;';
+    alertFinal.innerHTML = msg;
+  }
+
+  if (bloqueado) {
+    bar.style.background = '#ef5350';
+    status.style.color = '#ef5350';
+    status.textContent = 'reprovado — não enviar ao GR';
+    btnR.style.display = '';
+    if (motivo === 'gr') setAlert('rgba(239,83,80,0.1)','#ef5350','#ef9090','<strong>GR negativo — recusa imediata.</strong> Somente Ernane, Henrique ou Wanderson podem liberar.');
+    else if (motivo === 'rastreador') setAlert('rgba(239,83,80,0.1)','#ef5350','#ef9090','<strong>Sem rastreador — reprovado.</strong> Valor/destino exige rastreador ativo homologado.');
+    else setAlert('rgba(239,83,80,0.1)','#ef5350','#ef9090','<strong>Valor acima do limite para RJ (R$300k).</strong> Acionar Ernane antes de qualquer liberação.');
+  } else if (score < 6.0) {
+    bar.style.background = '#ef5350';
+    status.style.color = '#ef5350';
+    status.textContent = 'abaixo do mínimo — acionar gestão';
+    btnG.style.display = '';
+    setAlert('rgba(212,160,23,0.1)','#D4A017','#D4A017','<strong>Pontuação abaixo de 6,0.</strong> Acionar gestão antes de prosseguir. Não enviar ao GR sem autorização.');
+  } else if (score < 8.0) {
+    bar.style.background = '#D4A017';
+    status.style.color = '#D4A017';
+    status.textContent = 'liberado com ressalva';
+    setAlert('rgba(212,160,23,0.1)','#D4A017','#D4A017','<strong>Liberado com ressalva (6,0 a 7,9).</strong> Enviar ao GR com atenção nos pontos pendentes.');
+  } else {
+    bar.style.background = '#4caf50';
+    status.style.color = '#4caf50';
+    status.textContent = 'aprovado — pode enviar ao GR';
+    btnP.style.display = '';
+    setAlert('rgba(76,175,80,0.1)','#4caf50','#80c883','<strong>Aprovado.</strong> Pontuação suficiente para envio ao GR. Gere o PDF e encaminhe.');
+  }
+}
+
+avInit();
+</script>
 
 </body>
 </html>
