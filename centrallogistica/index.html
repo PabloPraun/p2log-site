@@ -802,7 +802,7 @@ function avCheckHtml(id, label, pts) {
   var ptsLabel = pts > 0
     ? '<span id="avpts-'+id+'" style="font-size:11px;font-weight:600;color:#6b7280;">+'+pts.toFixed(1).replace('.',',')+' pts</span>'
     : '<span style="font-size:10px;color:#dc2626;font-weight:700;">obrig.</span>';
-  return '<label id="ci-av-'+id+'" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0a0a0a;border:1px solid #222;border-radius:4px;cursor:pointer;">'
+  return '<label id="ci-av-'+id+'" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;cursor:pointer;">'
     +'<input type="checkbox" id="av-'+id+'" onchange="avCalc()" style="width:15px;height:15px;accent-color:#1d4ed8;">'
     +'<span style="flex:1;font-size:12px;color:#1F2937;">'+label+'</span>'
     +ptsLabel+'</label>';
