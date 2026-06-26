@@ -654,7 +654,7 @@ function calcPrazo(prefix, frete) {
   <div style="background:#111;border:1px solid #1e1e1e;border-radius:6px;margin-bottom:14px;overflow:hidden;">
     <div style="padding:12px 18px;border-bottom:1px solid #1e1e1e;display:flex;align-items:center;gap:10px;">
       <div style="width:24px;height:24px;background:#D4A017;color:#0a0a0a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;">1</div>
-      <span style="font-size:13px;font-weight:600;">Verificação GR <span style="background:rgba(239,83,80,0.15);color:#ef5350;font-size:9px;font-weight:700;letter-spacing:0.1em;padding:2px 8px;border-radius:2px;margin-left:4px;">ELIMINATÓRIO</span></span>
+      <span style="font-size:13px;font-weight:600;color:#f5f3ef;">Verificação GR <span style="background:rgba(239,83,80,0.15);color:#ef5350;font-size:9px;font-weight:700;letter-spacing:0.1em;padding:2px 8px;border-radius:2px;margin-left:4px;">ELIMINATÓRIO</span></span>
     </div>
     <div style="padding:14px 18px;">
       <label id="ci-av-gr" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0a0a0a;border:1px solid #ef5350;border-radius:4px;cursor:pointer;">
@@ -669,7 +669,7 @@ function calcPrazo(prefix, frete) {
   <div style="background:#111;border:1px solid #1e1e1e;border-radius:6px;margin-bottom:14px;overflow:hidden;">
     <div style="padding:12px 18px;border-bottom:1px solid #1e1e1e;display:flex;align-items:center;gap:10px;">
       <div style="width:24px;height:24px;background:#D4A017;color:#0a0a0a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;">2</div>
-      <span style="font-size:13px;font-weight:600;">Dados da operação</span>
+      <span style="font-size:13px;font-weight:600;color:#f5f3ef;">Dados da operação</span>
     </div>
     <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -711,7 +711,7 @@ function calcPrazo(prefix, frete) {
   <div style="background:#111;border:1px solid #1e1e1e;border-radius:6px;margin-bottom:14px;overflow:hidden;">
     <div style="padding:12px 18px;border-bottom:1px solid #1e1e1e;display:flex;align-items:center;gap:10px;">
       <div style="width:24px;height:24px;background:#D4A017;color:#0a0a0a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;">3</div>
-      <span style="font-size:13px;font-weight:600;">Veículo</span>
+      <span style="font-size:13px;font-weight:600;color:#f5f3ef;">Veículo</span>
     </div>
     <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -719,8 +719,8 @@ function calcPrazo(prefix, frete) {
           <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Tipo de Transportador</div>
           <select id="av-vinculo" onchange="avCalc()" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#f5f3ef;font-size:12px;padding:9px 10px;border-radius:4px;outline:none;">
             <option value="">Selecione...</option>
-            <option value="etc">ETC — Empresa de Transporte de Cargas (+1,5 pts)</option>
-            <option value="tac">TAC — Veículo no nome do motorista (+1,0 pts)</option>
+            <option value="etc">ETC — Empresa de Transporte de Cargas</option>
+            <option value="tac">TAC — Transportador Autônomo de Cargas</option>
           </select>
         </div>
         <div>
@@ -751,7 +751,7 @@ function calcPrazo(prefix, frete) {
   <div style="background:#111;border:1px solid #1e1e1e;border-radius:6px;margin-bottom:14px;overflow:hidden;">
     <div style="padding:12px 18px;border-bottom:1px solid #1e1e1e;display:flex;align-items:center;gap:10px;">
       <div style="width:24px;height:24px;background:#D4A017;color:#0a0a0a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;">4</div>
-      <span style="font-size:13px;font-weight:600;">Motorista</span>
+      <span style="font-size:13px;font-weight:600;color:#f5f3ef;">Motorista</span>
     </div>
     <div style="padding:14px 18px;display:flex;flex-direction:column;gap:8px;" id="av-checks-motorista"></div>
   </div>
@@ -760,7 +760,7 @@ function calcPrazo(prefix, frete) {
   <div style="background:#111;border:1px solid #1e1e1e;border-radius:6px;margin-bottom:20px;overflow:hidden;" id="sec-carga-esp">
     <div style="padding:12px 18px;border-bottom:1px solid #1e1e1e;display:flex;align-items:center;gap:10px;">
       <div style="width:24px;height:24px;background:#D4A017;color:#0a0a0a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;">5</div>
-      <span style="font-size:13px;font-weight:600;" id="av-carga-title">Critérios da carga — selecione o tipo acima</span>
+      <span style="font-size:13px;font-weight:600;color:#f5f3ef;" id="av-carga-title">Critérios da carga — selecione o tipo acima</span>
     </div>
     <div style="padding:14px 18px;display:flex;flex-direction:column;gap:8px;" id="av-checks-carga">
       <div style="font-size:12px;color:#555;">Selecione o tipo de carga na seção 2 para ver os critérios específicos.</div>
@@ -831,6 +831,7 @@ var AV_CARGA = {
 
 function avInit() {
   var veiculo = [
+    {id:'doc-regularizado',label:'Documentação do transportador regularizada (ETC com CNPJ ativo / TAC com veículo no próprio nome)',pts:1.5},
     {id:'crlv',label:'CRLV em nome do motorista ou empresa',pts:0.5},
     {id:'foto-assoalho',label:'Foto do assoalho / interior aprovada',pts:0.5},
     {id:'tag-pedagio',label:'Possui tag de pedágio ativa',pts:0.5}
@@ -903,12 +904,11 @@ function avCalc() {
   if (!bloqueado && exigeRast && !temRast) { bloqueado = true; motivo = 'rastreador'; }
 
   if (!bloqueado) {
-    if (vinculo === 'etc') score += 1.5;
-    else if (vinculo === 'tac') score += 1.0;
+    // pontuação vem do critério doc-regularizado
     score += ano;
 
-    var ids = ['crlv','foto-assoalho','tag-pedagio','cnh-local','antt','ref-recente','habilitacao','foto-cnh','foto-veiculo'];
-    var pts = {crlv:0.5,'foto-assoalho':0.5,'tag-pedagio':0.5,'cnh-local':0.5,antt:1.0,'ref-recente':0.5,habilitacao:0.5,'foto-cnh':0.5,'foto-veiculo':0.5};
+    var ids = ['doc-regularizado','crlv','foto-assoalho','tag-pedagio','cnh-local','antt','ref-recente','habilitacao','foto-cnh','foto-veiculo'];
+    var pts = {'doc-regularizado':1.5,crlv:0.5,'foto-assoalho':0.5,'tag-pedagio':0.5,'cnh-local':0.5,antt:1.0,'ref-recente':0.5,habilitacao:0.5,'foto-cnh':0.5,'foto-veiculo':0.5};
     ids.forEach(function(id){
       var el = document.getElementById('av-'+id);
       if (el && el.checked) score += pts[id] || 0;
