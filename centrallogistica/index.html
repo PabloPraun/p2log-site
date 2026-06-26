@@ -660,7 +660,7 @@ function calcPrazo(prefix, frete) {
       <label id="ci-av-gr" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border:1px solid #ef5350;border-radius:6px;cursor:pointer;">
         <input type="checkbox" id="av-gr" onchange="avCalc()" style="width:15px;height:15px;accent-color:#D4A017;">
         <span style="flex:1;font-size:12px;color:#1F2937;">GR consultado e aprovado (Buonny / Skymark / Rister)</span>
-        <span style="font-size:10px;color:#ef5350;font-weight:700;">obrigatório</span>
+        <span style="font-size:10px;color:#dc2626;font-weight:700;">obrigatório</span>
       </label>
     </div>
   </div>
@@ -674,7 +674,7 @@ function calcPrazo(prefix, frete) {
     <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;background:#fff;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
         <div>
-          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Tipo de carga</div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:5px;">Tipo de carga</div>
           <select id="av-carga" onchange="avOnCarga()" style="width:100%;background:#fff;border:1px solid #d1d5db;color:#1F2937;font-size:12px;padding:9px 10px;border-radius:6px;outline:none;">
             <option value="">Selecione...</option>
             <option value="granel">Granel seco (soja, milho, farelo)</option>
@@ -685,7 +685,7 @@ function calcPrazo(prefix, frete) {
           </select>
         </div>
         <div>
-          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Destino principal</div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:5px;">Destino principal</div>
           <select id="av-destino" onchange="avCalc()" style="width:100%;background:#fff;border:1px solid #d1d5db;color:#1F2937;font-size:12px;padding:9px 10px;border-radius:6px;outline:none;">
             <option value="">Selecione...</option>
             <option value="rj">Rio de Janeiro / RJ</option>
@@ -694,15 +694,15 @@ function calcPrazo(prefix, frete) {
         </div>
       </div>
       <div>
-        <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Valor da carga (R$)</div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:5px;">Valor da carga (R$)</div>
         <input type="number" id="av-valor" placeholder="Ex: 150000" oninput="avCalc()" style="width:100%;background:#fff;border:1px solid #d1d5db;color:#1F2937;font-size:12px;padding:9px 10px;border-radius:6px;outline:none;">
       </div>
       <div id="av-alert-rj" style="display:none;background:#fef2f2;border-left:3px solid #dc2626;padding:10px 12px;border-radius:0 6px 6px 0;font-size:12px;color:#991b1b;">Valor acima de R$300.000 para RJ — <strong>recusado pela apólice.</strong> Acionar Ernane antes de qualquer liberação.</div>
       <div id="av-alert-rast" style="display:none;background:#fffbeb;border-left:3px solid #d97706;padding:10px 12px;border-radius:0 6px 6px 0;font-size:12px;color:#92400e;">Valor exige rastreador ativo para este destino. Confirme abaixo.</div>
-      <label id="ci-av-rast" style="display:none;align-items:center;gap:10px;padding:10px 12px;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:4px;cursor:pointer;">
+      <label id="ci-av-rast" style="display:none;align-items:center;gap:10px;padding:10px 12px;background:#fef2f2;border:1px solid #dc2626;border-radius:6px;cursor:pointer;">
         <input type="checkbox" id="av-rast" onchange="avCalc()" style="width:15px;height:15px;accent-color:#D4A017;">
-        <span style="flex:1;font-size:12px;color:#f5f3ef;">Veículo possui rastreador ativo e homologado</span>
-        <span style="font-size:10px;color:#ef5350;font-weight:700;">obrigatório</span>
+        <span style="flex:1;font-size:12px;color:#1F2937;">Veículo possui rastreador ativo e homologado</span>
+        <span style="font-size:10px;color:#dc2626;font-weight:700;">obrigatório</span>
       </label>
     </div>
   </div>
@@ -716,7 +716,7 @@ function calcPrazo(prefix, frete) {
     <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;background:#fff;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
         <div>
-          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Tipo de Transportador</div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:5px;">Tipo de Transportador</div>
           <select id="av-vinculo" onchange="avCalc()" style="width:100%;background:#fff;border:1px solid #d1d5db;color:#1F2937;font-size:12px;padding:9px 10px;border-radius:6px;outline:none;">
             <option value="">Selecione...</option>
             <option value="etc">ETC — Empresa de Transporte de Cargas</option>
@@ -724,7 +724,7 @@ function calcPrazo(prefix, frete) {
           </select>
         </div>
         <div>
-          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Tipo de Veículo</div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:5px;">Tipo de Veículo</div>
           <select id="av-carroceria" onchange="avOnCarroceria()" style="width:100%;background:#fff;border:1px solid #d1d5db;color:#1F2937;font-size:12px;padding:9px 10px;border-radius:6px;outline:none;">
             <option value="">Selecione...</option>
             <option value="bau">Baú</option>
@@ -735,7 +735,7 @@ function calcPrazo(prefix, frete) {
         </div>
       </div>
       <div>
-        <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px;">Ano do veículo</div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:5px;">Ano do veículo</div>
         <select id="av-ano" onchange="avCalc()" style="width:100%;background:#fff;border:1px solid #d1d5db;color:#1F2937;font-size:12px;padding:9px 10px;border-radius:6px;outline:none;">
           <option value="0">Selecione...</option>
           <option value="1.0">Até 5 anos — +1,0 pts</option>
