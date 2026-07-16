@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Gestão do Salão</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  :root {
+    --gold: #D4A017;
+    --dark: #1a1a2e;
+    --dark2: #16213e;
+    --bg: #f8f7f4;
+    --white: #ffffff;
+    --gray: #888;
+    --light-border: #eee;
+    --green: #27ae60;
+    --red: #e74c3c;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, var(--dark), var(--dark2));
+    padding: 20px 20px 16px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .header h1 { font-size: 20px; font-weight: 800; color: var(--gold); letter-spacing: 1px; }
+  .header p { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+  /* ── Tab Bar ── */
+  .tab-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--light-border);
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    flex: 1; padding: 10px 8px; border: none; background: none; cursor: pointer;
+    border-bottom: 3px solid transparent; color: var(--gray); font-weight: 500;
+    font-size: 11px; font-family: inherit; text-align: center; min-width: 70px;
+    transition: all 0.2s;
+  }
+  .tab-btn.active { border-bottom-color: var(--gold); color: var(--gold); font-weight: 700; }
+  .tab-btn .icon { font-size: 18px; display: block; margin-bottom: 2px; }
+
+  /* ── Content ── */
+  .content { max-width: 500px; margin: 0 auto; padding: 16px 16px 100px; }
+  .card { background: var(--white); border-radius: 16px; padding: 24px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); margin-bottom: 16px; }
+  .card h3 { font-size: 16px; color: var(--dark); margin-bottom: 16px; }
+
+  /* ── Form ── */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .field input, .field select {
+    width: 100%; padding: 12px; border-radius: 10px; border: 1.5px solid #ddd;
+    font-size: 15px; font-family: inherit; background: var(--white); outline: none;
+    transition: border 0.2s; -webkit-appearance: none;
+  }
+  .field input:focus, .field select:focus { border-color: var(--gold); }
+
+  .btn {
+    width: 100%; padding: 14px; border-radius: 12px; border: none;
+    font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: linear-gradient(135deg, var(--gold), #b8860b); color: #fff; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-secondary { background: #f5f5f5; color: #333; border: 1px solid #ddd; margin-top: 8px; }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: var(--dark); color: var(--gold); padding: 14px 28px; border-radius: 14px;
+    font-weight: 700; font-size: 14px; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    animation: slideUp 0.3s;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(15px); } }
+
+  /* ── List ── */
+  .list-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid #f0f0f0;
+  }
+  .list-item:last-child { border: none; }
+  .list-name { font-weight: 600; font-size: 14px; }
+  .list-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .list-value { font-weight: 700; color: var(--green); font-size: 14px; }
+  .list-date { font-size: 11px; color: #aaa; }
+
+  /* ── Status indicator ── */
+  .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .online .status-dot { background: var(--green); }
+  .offline .status-dot { background: var(--red); }
+
+  /* ── Setup banner ── */
+  .setup-banner {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border: 1px solid #f0d060;
+    border-radius: 12px; padding: 16px; margin-bottom: 16px;
+    font-size: 13px; line-height: 1.5;
+  }
+  .setup-banner strong { color: var(--dark); }
+  .setup-banner code {
+    background: rgba(0,0,0,0.08); padding: 2px 6px; border-radius: 4px;
+    font-size: 12px; word-break: break-all;
+  }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<div class="header">
+  <h1>GESTÃO DO SALÃO</h1>
+  <p>Sistema de controle financeiro</p>
+</div>
+
+<!-- ═══════ TAB BAR ═══════ -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="caixa"><span class="icon">💰</span>Caixa</button>
+  <button class="tab-btn" data-tab="cadastro"><span class="icon">👤</span>Clientes</button>
+  <button class="tab-btn" data-tab="historico"><span class="icon">📋</span>Histórico</button>
+  <button class="tab-btn" data-tab="config"><span class="icon">⚙️</span>Config</button>
+</div>
+
+<!-- ═══════ CONTENT ═══════ -->
+<div class="content">
+
+  <!-- ── CAIXA TAB ── -->
+  <div id="tab-caixa" class="tab-content">
+    <div id="setup-alert" class="setup-banner">
+      <strong>⚠️ Configuração necessária:</strong><br>
+      Vá na aba <strong>Config</strong> e cole a URL do Google Apps Script para conectar com a planilha.
+    </div>
+
+    <div class="card">
+      <h3>Fechamento de Serviço</h3>
+      <div class="field">
+        <label>Data do atendimento</label>
+        <input type="date" id="srv-date">
+      </div>
+      <div class="field">
+        <label>Nome do cliente</label>
+        <input type="text" id="srv-client" list="client-list" placeholder="Digite ou selecione..." autocomplete="off">
+        <datalist id="client-list"></datalist>
+      </div>
+      <div class="field">
+        <label>Colaborador que atendeu</label>
+        <select id="srv-collaborator"><option value="">Selecione...</option></select>
+      </div>
+      <div class="field">
+        <label>Serviço realizado</label>
+        <select id="srv-service">
+          <option value="">Selecione...</option>
+          <option>Corte</option><option>Escova</option><option>Hidratação</option>
+          <option>Pintura / Coloração</option><option>Progressiva / Alisamento</option>
+          <option>Manicure</option><option>Pedicure</option><option>Design de Sobrancelha</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="field hidden" id="other-service-field">
+        <label>Especifique o serviço</label>
+        <input type="text" id="srv-other" placeholder="Qual serviço?">
+      </div>
+      <div class="field">
+        <label>Valor cobrado (R$)</label>
+        <input type="number" id="srv-value" placeholder="0,00" min="0" step="0.01" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label>Forma de pagamento</label>
+        <select id="srv-payment">
+          <option value="">Selecione...</option>
+          <option>PIX</option><option>Dinheiro</option>
+          <option>Cartão Crédito</option><option>Cartão Débito</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btn-submit-service" disabled>Lançar no Caixa</button>
+    </div>
+  </div>
+
+  <!-- ── CADASTRO TAB ── -->
+  <div id="tab-cadastro" class="tab-content hidden">
+    <div class="card">
+      <h3>Cadastrar Novo Cliente</h3>
+      <div class="field">
+        <label>Nome completo</label>
+        <input type="text" id="cli-name" placeholder="Ex: Lara Mendes">
+      </div>
+      <div class="field">
+        <label>Telefone / WhatsApp</label>
+        <input type="tel" id="cli-phone" placeholder="64 99999-0000" inputmode="tel">
+      </div>
+      <button class="btn btn-primary" id="btn-submit-client" disabled>Cadastrar Cliente</button>
+    </div>
+    <div class="card" id="client-list-card">
+      <h3>Clientes Cadastrados (<span id="client-count">0</span>)</h3>
+      <div id="client-list-container" style="max-height:350px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- ── HISTÓRICO TAB ── -->
+  <div id="tab-historico" class="tab-content hidden">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="margin:0">Lançamentos de Hoje</h3>
+        <span id="today-total" style="font-weight:700;color:#D4A017;font-size:15px;">R$ 0,00</span>
+      </div>
+      <div id="history-list" style="max-height:500px;overflow-y:auto;">
+        <p style="color:#aaa;font-size:13px;text-align:center;padding:30px 0;">Nenhum lançamento ainda</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONFIG TAB ── -->
+  <div id="tab-config" class="tab-content hidden">
+    <div class="card">
+      <h3>Conexão com Google Sheets</h3>
+      <div class="field">
+        <label>URL do Google Apps Script</label>
+        <input type="url" id="cfg-url" placeholder="https://script.google.com/macros/s/...../exec">
+      </div>
+      <button class="btn btn-primary" id="btn-save-url">Salvar e Testar Conexão</button>
+      <div id="connection-status" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="card">
+      <h3>Colaboradores</h3>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <input type="text" id="cfg-new-collab" placeholder="Nome do colaborador" style="flex:1;padding:10px 12px;border-radius:8px;border:1.5px solid #ddd;font-size:14px;font-family:inherit;">
+        <button class="btn btn-primary" id="btn-add-collab" style="width:auto;padding:10px 20px;">+</button>
+      </div>
+      <div id="collab-list"></div>
+    </div>
+
+    <div class="card">
+      <h3>Resetar Dados Locais</h3>
+      <p style="font-size:13px;color:#888;margin-bottom:12px;">Isso apaga apenas os dados salvos neste aparelho. A planilha do Google Sheets não é afetada.</p>
+      <button class="btn btn-secondary" id="btn-reset" style="color:#e74c3c;border-color:#e74c3c;">Limpar Dados Locais</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TOAST ═══════ -->
+<div class="toast hidden" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// DATA STORE (localStorage)
+// ══════════════════════════════════════════════════════════
+const KEYS = {
+  url: 'salon_script_url',
+  clients: 'salon_clients',
+  services: 'salon_services',
+  collaborators: 'salon_collaborators'
+};
+
+function load(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch { return fallback; }
+}
+function save(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+
+let STATE = {
+  url: localStorage.getItem(KEYS.url) || '',
+  clients: load(KEYS.clients, []),
+  services: load(KEYS.services, []),
+  collaborators: load(KEYS.collaborators, ['Colaborador 1', 'Colaborador 2', 'Colaborador 3'])
+};
+
+// ══════════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.add('hidden'), 2500);
+}
+
+// ══════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+  });
+});
+
+// ══════════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════════
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+function formatCurrency(v) { return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v); }
+function formatDate(d) { return new Date(d+'T12:00:00').toLocaleDateString('pt-BR'); }
+
+// ══════════════════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ══════════════════════════════════════════════════════════
+function renderCollaboratorSelect() {
+  const sel = document.getElementById('srv-collaborator');
+  sel.innerHTML = '<option value="">Selecione...</option>';
+  STATE.collaborators.forEach(c => {
+    sel.innerHTML += `<option value="${c}">${c}</option>`;
+  });
+}
+
+function renderClientDatalist() {
+  const dl = document.getElementById('client-list');
+  dl.innerHTML = '';
+  STATE.clients.forEach(c => { dl.innerHTML += `<option value="${c.name}">`; });
+}
+
+function renderClientList() {
+  const container = document.getElementById('client-list-container');
+  document.getElementById('client-count').textContent = STATE.clients.length;
+  if (!STATE.clients.length) {
+    container.innerHTML = '<p style="color:#aaa;font-size:13px;text-align:center;padding:20px 0;">Nenhum cliente cadastrado</p>';
+    return;
+  }
+  container.innerHTML = [...STATE.clients].reverse().map(c => `
+    <div class="list-item">
+      <div><div class="list-name">${c.name}</div><div class="list-sub">${c.phone}</div></div>
+      <div class="list-date">${formatDate(c.createdAt)}</div>
+    </div>
+  `).join('');
+}
+
+function renderHistory() {
+  const today = todayStr();
+  const todayItems = STATE.services.filter(s => s.date === today);
+  const total = todayItems.reduce((s, v) => s + v.value, 0);
+  document.getElementById('today-total').textContent = formatCurrency(total);
+
+  const container = document.getElementById('history-list');
+  const items = [...STATE.services].reverse().slice(0, 30);
+  if (!items.length) {
+    container.innerHTML = '<p style="color:#aaa;font-size:13px;text-align:center;padding:30px 0;">Nenhum lançamento ainda</p>';
+    return;
+  }
+  container.innerHTML = items.map(s => `
+    <div class="list-item">
+      <div>
+        <div class="list-name">${s.client}</div>
+        <div class="list-sub">${s.service} · ${s.collaborator} · ${s.payment}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="list-value">${formatCurrency(s.value)}</div>
+        <div class="list-date">${formatDate(s.date)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCollabList() {
+  const container = document.getElementById('collab-list');
+  container.innerHTML = STATE.collaborators.map((c, i) => `
+    <div class="list-item">
+      <span style="font-weight:600;">${c}</span>
+      <button onclick="removeCollab(${i})" style="background:none;border:none;color:#e74c3c;cursor:pointer;font-size:20px;font-weight:700;">×</button>
+    </div>
+  `).join('');
+}
+
+function checkSetupAlert() {
+  document.getElementById('setup-alert').classList.toggle('hidden', !!STATE.url);
+}
+
+function renderAll() {
+  renderCollaboratorSelect();
+  renderClientDatalist();
+  renderClientList();
+  renderHistory();
+  renderCollabList();
+  checkSetupAlert();
+  document.getElementById('cfg-url').value = STATE.url;
+}
+
+// ══════════════════════════════════════════════════════════
+// SEND TO GOOGLE SHEETS
+// ══════════════════════════════════════════════════════════
+async function sendToSheet(type, data) {
+  if (!STATE.url) return; // silently skip if not configured
+  
+  try {
+    const payload = { type, ...data, timestamp: new Date().toISOString() };
+    await fetch(STATE.url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.error('Erro ao enviar:', err);
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// FORM VALIDATION
+// ══════════════════════════════════════════════════════════
+function validateServiceForm() {
+  const d = document.getElementById('srv-date').value;
+  const c = document.getElementById('srv-client').value;
+  const co = document.getElementById('srv-collaborator').value;
+  const s = document.getElementById('srv-service').value;
+  const v = document.getElementById('srv-value').value;
+  const p = document.getElementById('srv-payment').value;
+  const o = document.getElementById('srv-other').value;
+  const needsOther = s === 'Outro' && !o;
+  document.getElementById('btn-submit-service').disabled = !(d && c && co && s && v && parseFloat(v) > 0 && p && !needsOther);
+}
+
+function validateClientForm() {
+  const n = document.getElementById('cli-name').value.trim();
+  const p = document.getElementById('cli-phone').value.trim();
+  document.getElementById('btn-submit-client').disabled = !(n && p);
+}
+
+// Watch all form fields
+['srv-date','srv-client','srv-collaborator','srv-service','srv-value','srv-payment','srv-other'].forEach(id => {
+  document.getElementById(id).addEventListener('input', validateServiceForm);
+  document.getElementById(id).addEventListener('change', validateServiceForm);
+});
+['cli-name','cli-phone'].forEach(id => {
+  document.getElementById(id).addEventListener('input', validateClientForm);
+});
+
+// Show/hide "Outro" field
+document.getElementById('srv-service').addEventListener('change', function() {
+  document.getElementById('other-service-field').classList.toggle('hidden', this.value !== 'Outro');
+  validateServiceForm();
+});
+
+// ══════════════════════════════════════════════════════════
+// SUBMIT SERVICE
+// ══════════════════════════════════════════════════════════
+document.getElementById('btn-submit-service').addEventListener('click', function() {
+  const service = document.getElementById('srv-service').value;
+  const entry = {
+    id: Date.now().toString(36),
+    date: document.getElementById('srv-date').value,
+    client: document.getElementById('srv-client').value.trim(),
+    collaborator: document.getElementById('srv-collaborator').value,
+    service: service === 'Outro' ? document.getElementById('srv-other').value : service,
+    value: parseFloat(document.getElementById('srv-value').value),
+    payment: document.getElementById('srv-payment').value,
+  };
+
+  STATE.services.push(entry);
+  save(KEYS.services, STATE.services);
+  sendToSheet('servico', entry);
+
+  showToast(`Lançado — ${formatCurrency(entry.value)}`);
+
+  // Reset form (keep date)
+  document.getElementById('srv-client').value = '';
+  document.getElementById('srv-collaborator').value = '';
+  document.getElementById('srv-service').value = '';
+  document.getElementById('srv-other').value = '';
+  document.getElementById('srv-value').value = '';
+  document.getElementById('srv-payment').value = '';
+  document.getElementById('other-service-field').classList.add('hidden');
+  validateServiceForm();
+  renderHistory();
+  renderClientDatalist();
+});
+
+// ══════════════════════════════════════════════════════════
+// SUBMIT CLIENT
+// ══════════════════════════════════════════════════════════
+document.getElementById('btn-submit-client').addEventListener('click', function() {
+  const entry = {
+    id: Date.now().toString(36),
+    name: document.getElementById('cli-name').value.trim(),
+    phone: document.getElementById('cli-phone').value.trim(),
+    createdAt: todayStr()
+  };
+
+  STATE.clients.push(entry);
+  save(KEYS.clients, STATE.clients);
+  sendToSheet('cliente', entry);
+
+  showToast(`${entry.name} cadastrado(a)!`);
+
+  document.getElementById('cli-name').value = '';
+  document.getElementById('cli-phone').value = '';
+  validateClientForm();
+  renderClientList();
+  renderClientDatalist();
+});
+
+// ══════════════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════════════
+document.getElementById('btn-save-url').addEventListener('click', async function() {
+  const url = document.getElementById('cfg-url').value.trim();
+  STATE.url = url;
+  localStorage.setItem(KEYS.url, url);
+  checkSetupAlert();
+
+  const statusEl = document.getElementById('connection-status');
+  if (!url) {
+    statusEl.innerHTML = '<div class="status offline"><span class="status-dot"></span> Desconectado</div>';
+    return;
+  }
+
+  statusEl.innerHTML = '<div class="status"><span>⏳ Testando conexão...</span></div>';
+  try {
+    await fetch(url, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'text/plain'}, body: JSON.stringify({type:'teste',timestamp:new Date().toISOString()}) });
+    statusEl.innerHTML = '<div class="status online"><span class="status-dot"></span> Conectado — dados serão enviados para a planilha</div>';
+    showToast('Conexão salva!');
+  } catch {
+    statusEl.innerHTML = '<div class="status offline"><span class="status-dot"></span> Erro — verifique a URL</div>';
+  }
+});
+
+document.getElementById('btn-add-collab').addEventListener('click', function() {
+  const input = document.getElementById('cfg-new-collab');
+  const name = input.value.trim();
+  if (!name || STATE.collaborators.includes(name)) return;
+  STATE.collaborators.push(name);
+  save(KEYS.collaborators, STATE.collaborators);
+  input.value = '';
+  renderCollabList();
+  renderCollaboratorSelect();
+  showToast(`${name} adicionado(a)!`);
+});
+
+document.getElementById('cfg-new-collab').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('btn-add-collab').click();
+});
+
+function removeCollab(index) {
+  const name = STATE.collaborators[index];
+  STATE.collaborators.splice(index, 1);
+  save(KEYS.collaborators, STATE.collaborators);
+  renderCollabList();
+  renderCollaboratorSelect();
+  showToast(`${name} removido(a)`);
+}
+
+document.getElementById('btn-reset').addEventListener('click', function() {
+  if (!confirm('Tem certeza? Isso apaga clientes e lançamentos deste aparelho.')) return;
+  STATE.clients = [];
+  STATE.services = [];
+  save(KEYS.clients, []);
+  save(KEYS.services, []);
+  renderAll();
+  showToast('Dados locais apagados');
+});
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+document.getElementById('srv-date').value = todayStr();
+renderAll();
+</script>
+</body>
+</html>
