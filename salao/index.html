@@ -8,149 +8,64 @@
 <title>Gestão do Salão</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-  
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
   :root {
-    --gold: #D4A017;
-    --dark: #1a1a2e;
-    --dark2: #16213e;
-    --bg: #f8f7f4;
-    --white: #ffffff;
-    --gray: #888;
-    --light-border: #eee;
-    --green: #27ae60;
-    --red: #e74c3c;
+    --gold: #D4A017; --dark: #1a1a2e; --dark2: #16213e; --bg: #f8f7f4;
+    --white: #fff; --gray: #888; --light-border: #eee; --green: #27ae60; --red: #e74c3c;
   }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; -webkit-tap-highlight-color: transparent; }
 
-  body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--dark);
-    min-height: 100vh;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* ── Header ── */
-  .header {
-    background: linear-gradient(135deg, var(--dark), var(--dark2));
-    padding: 20px 20px 16px;
-    border-bottom: 3px solid var(--gold);
-  }
+  .header { background: linear-gradient(135deg, var(--dark), var(--dark2)); padding: 20px 20px 16px; border-bottom: 3px solid var(--gold); }
   .header h1 { font-size: 20px; font-weight: 800; color: var(--gold); letter-spacing: 1px; }
   .header p { font-size: 12px; color: var(--gray); margin-top: 2px; }
 
-  /* ── Tab Bar ── */
-  .tab-bar {
-    background: var(--white);
-    border-bottom: 1px solid var(--light-border);
-    display: flex;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    overflow-x: auto;
-  }
-  .tab-btn {
-    flex: 1; padding: 10px 8px; border: none; background: none; cursor: pointer;
-    border-bottom: 3px solid transparent; color: var(--gray); font-weight: 500;
-    font-size: 11px; font-family: inherit; text-align: center; min-width: 70px;
-    transition: all 0.2s;
-  }
+  .tab-bar { background: var(--white); border-bottom: 1px solid var(--light-border); display: flex; position: sticky; top: 0; z-index: 100; }
+  .tab-btn { flex: 1; padding: 10px 8px; border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; color: var(--gray); font-weight: 500; font-size: 11px; font-family: inherit; text-align: center; min-width: 70px; transition: all 0.2s; }
   .tab-btn.active { border-bottom-color: var(--gold); color: var(--gold); font-weight: 700; }
   .tab-btn .icon { font-size: 18px; display: block; margin-bottom: 2px; }
 
-  /* ── Content ── */
   .content { max-width: 500px; margin: 0 auto; padding: 16px 16px 100px; }
   .card { background: var(--white); border-radius: 16px; padding: 24px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); margin-bottom: 16px; }
   .card h3 { font-size: 16px; color: var(--dark); margin-bottom: 16px; }
 
-  /* ── Form ── */
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .field input, .field select {
-    width: 100%; padding: 12px; border-radius: 10px; border: 1.5px solid #ddd;
-    font-size: 15px; font-family: inherit; background: var(--white); outline: none;
-    transition: border 0.2s; -webkit-appearance: none;
-  }
+  .field input, .field select { width: 100%; padding: 12px; border-radius: 10px; border: 1.5px solid #ddd; font-size: 15px; font-family: inherit; background: var(--white); outline: none; transition: border 0.2s; -webkit-appearance: none; }
   .field input:focus, .field select:focus { border-color: var(--gold); }
 
-  .btn {
-    width: 100%; padding: 14px; border-radius: 12px; border: none;
-    font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit;
-    transition: all 0.2s;
-  }
+  .btn { width: 100%; padding: 14px; border-radius: 12px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s; }
   .btn-primary { background: linear-gradient(135deg, var(--gold), #b8860b); color: #fff; }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-  .btn-secondary { background: #f5f5f5; color: #333; border: 1px solid #ddd; margin-top: 8px; }
 
-  /* ── Toast ── */
-  .toast {
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-    background: var(--dark); color: var(--gold); padding: 14px 28px; border-radius: 14px;
-    font-weight: 700; font-size: 14px; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    animation: slideUp 0.3s;
-  }
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--dark); color: var(--gold); padding: 14px 28px; border-radius: 14px; font-weight: 700; font-size: 14px; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,0.3); animation: slideUp 0.3s; }
   @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(15px); } }
 
-  /* ── List ── */
-  .list-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 0; border-bottom: 1px solid #f0f0f0;
-  }
+  .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
   .list-item:last-child { border: none; }
   .list-name { font-weight: 600; font-size: 14px; }
   .list-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
   .list-value { font-weight: 700; color: var(--green); font-size: 14px; }
   .list-date { font-size: 11px; color: #aaa; }
-
-  /* ── Status indicator ── */
-  .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .online .status-dot { background: var(--green); }
-  .offline .status-dot { background: var(--red); }
-
-  /* ── Setup banner ── */
-  .setup-banner {
-    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-    border: 1px solid #f0d060;
-    border-radius: 12px; padding: 16px; margin-bottom: 16px;
-    font-size: 13px; line-height: 1.5;
-  }
-  .setup-banner strong { color: var(--dark); }
-  .setup-banner code {
-    background: rgba(0,0,0,0.08); padding: 2px 6px; border-radius: 4px;
-    font-size: 12px; word-break: break-all;
-  }
-
   .hidden { display: none; }
 </style>
 </head>
 <body>
 
-<!-- ═══════ HEADER ═══════ -->
 <div class="header">
   <h1>GESTÃO DO SALÃO</h1>
   <p>Sistema de controle financeiro</p>
 </div>
 
-<!-- ═══════ TAB BAR ═══════ -->
 <div class="tab-bar">
   <button class="tab-btn active" data-tab="caixa"><span class="icon">💰</span>Caixa</button>
   <button class="tab-btn" data-tab="cadastro"><span class="icon">👤</span>Clientes</button>
   <button class="tab-btn" data-tab="historico"><span class="icon">📋</span>Histórico</button>
-  <button class="tab-btn" data-tab="config"><span class="icon">⚙️</span>Config</button>
 </div>
 
-<!-- ═══════ CONTENT ═══════ -->
 <div class="content">
 
-  <!-- ── CAIXA TAB ── -->
+  <!-- ── CAIXA ── -->
   <div id="tab-caixa" class="tab-content">
-    <div id="setup-alert" class="setup-banner">
-      <strong>⚠️ Configuração necessária:</strong><br>
-      Vá na aba <strong>Config</strong> e cole a URL do Google Apps Script para conectar com a planilha.
-    </div>
-
     <div class="card">
       <h3>Fechamento de Serviço</h3>
       <div class="field">
@@ -196,7 +111,7 @@
     </div>
   </div>
 
-  <!-- ── CADASTRO TAB ── -->
+  <!-- ── CLIENTES ── -->
   <div id="tab-cadastro" class="tab-content hidden">
     <div class="card">
       <h3>Cadastrar Novo Cliente</h3>
@@ -210,13 +125,13 @@
       </div>
       <button class="btn btn-primary" id="btn-submit-client" disabled>Cadastrar Cliente</button>
     </div>
-    <div class="card" id="client-list-card">
+    <div class="card">
       <h3>Clientes Cadastrados (<span id="client-count">0</span>)</h3>
       <div id="client-list-container" style="max-height:350px;overflow-y:auto;"></div>
     </div>
   </div>
 
-  <!-- ── HISTÓRICO TAB ── -->
+  <!-- ── HISTÓRICO ── -->
   <div id="tab-historico" class="tab-content hidden">
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
@@ -229,60 +144,28 @@
     </div>
   </div>
 
-  <!-- ── CONFIG TAB ── -->
-  <div id="tab-config" class="tab-content hidden">
-    <div class="card">
-      <h3>Conexão com Google Sheets</h3>
-      <div class="field">
-        <label>URL do Google Apps Script</label>
-        <input type="url" id="cfg-url" placeholder="https://script.google.com/macros/s/...../exec">
-      </div>
-      <button class="btn btn-primary" id="btn-save-url">Salvar e Testar Conexão</button>
-      <div id="connection-status" style="margin-top:12px;"></div>
-    </div>
-
-    <div class="card">
-      <h3>Colaboradores</h3>
-      <div style="display:flex;gap:8px;margin-bottom:12px;">
-        <input type="text" id="cfg-new-collab" placeholder="Nome do colaborador" style="flex:1;padding:10px 12px;border-radius:8px;border:1.5px solid #ddd;font-size:14px;font-family:inherit;">
-        <button class="btn btn-primary" id="btn-add-collab" style="width:auto;padding:10px 20px;">+</button>
-      </div>
-      <div id="collab-list"></div>
-    </div>
-
-    <div class="card">
-      <h3>Resetar Dados Locais</h3>
-      <p style="font-size:13px;color:#888;margin-bottom:12px;">Isso apaga apenas os dados salvos neste aparelho. A planilha do Google Sheets não é afetada.</p>
-      <button class="btn btn-secondary" id="btn-reset" style="color:#e74c3c;border-color:#e74c3c;">Limpar Dados Locais</button>
-    </div>
-  </div>
 </div>
 
-<!-- ═══════ TOAST ═══════ -->
 <div class="toast hidden" id="toast"></div>
 
 <script>
 // ══════════════════════════════════════════════════════════
-// DATA STORE (localStorage)
+// CONFIGURAÇÃO — Pablo altera aqui quando necessário
 // ══════════════════════════════════════════════════════════
-const KEYS = {
-  url: 'salon_script_url',
-  clients: 'salon_clients',
-  services: 'salon_services',
-  collaborators: 'salon_collaborators'
-};
+const SCRIPT_URL = ''; // ← Colar a URL do Google Apps Script aqui
+const COLABORADORES = ['Colaborador 1', 'Colaborador 2', 'Colaborador 3']; // ← Nomes reais da equipe
 
+// ══════════════════════════════════════════════════════════
+// DATA STORE
+// ══════════════════════════════════════════════════════════
 function load(key, fallback) {
-  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
-  catch { return fallback; }
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; }
 }
 function save(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
 
 let STATE = {
-  url: localStorage.getItem(KEYS.url) || '',
-  clients: load(KEYS.clients, []),
-  services: load(KEYS.services, []),
-  collaborators: load(KEYS.collaborators, ['Colaborador 1', 'Colaborador 2', 'Colaborador 3'])
+  clients: load('salon_clients', []),
+  services: load('salon_services', []),
 };
 
 // ══════════════════════════════════════════════════════════
@@ -291,8 +174,7 @@ let STATE = {
 let toastTimer;
 function showToast(msg) {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.remove('hidden');
+  el.textContent = msg; el.classList.remove('hidden');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.add('hidden'), 2500);
 }
@@ -317,14 +199,12 @@ function formatCurrency(v) { return new Intl.NumberFormat('pt-BR',{style:'curren
 function formatDate(d) { return new Date(d+'T12:00:00').toLocaleDateString('pt-BR'); }
 
 // ══════════════════════════════════════════════════════════
-// RENDER FUNCTIONS
+// RENDER
 // ══════════════════════════════════════════════════════════
 function renderCollaboratorSelect() {
   const sel = document.getElementById('srv-collaborator');
   sel.innerHTML = '<option value="">Selecione...</option>';
-  STATE.collaborators.forEach(c => {
-    sel.innerHTML += `<option value="${c}">${c}</option>`;
-  });
+  COLABORADORES.forEach(c => { sel.innerHTML += `<option value="${c}">${c}</option>`; });
 }
 
 function renderClientDatalist() {
@@ -353,7 +233,6 @@ function renderHistory() {
   const todayItems = STATE.services.filter(s => s.date === today);
   const total = todayItems.reduce((s, v) => s + v.value, 0);
   document.getElementById('today-total').textContent = formatCurrency(total);
-
   const container = document.getElementById('history-list');
   const items = [...STATE.services].reverse().slice(0, 30);
   if (!items.length) {
@@ -362,63 +241,26 @@ function renderHistory() {
   }
   container.innerHTML = items.map(s => `
     <div class="list-item">
-      <div>
-        <div class="list-name">${s.client}</div>
-        <div class="list-sub">${s.service} · ${s.collaborator} · ${s.payment}</div>
-      </div>
-      <div style="text-align:right;">
-        <div class="list-value">${formatCurrency(s.value)}</div>
-        <div class="list-date">${formatDate(s.date)}</div>
-      </div>
+      <div><div class="list-name">${s.client}</div><div class="list-sub">${s.service} · ${s.collaborator} · ${s.payment}</div></div>
+      <div style="text-align:right;"><div class="list-value">${formatCurrency(s.value)}</div><div class="list-date">${formatDate(s.date)}</div></div>
     </div>
   `).join('');
 }
 
-function renderCollabList() {
-  const container = document.getElementById('collab-list');
-  container.innerHTML = STATE.collaborators.map((c, i) => `
-    <div class="list-item">
-      <span style="font-weight:600;">${c}</span>
-      <button onclick="removeCollab(${i})" style="background:none;border:none;color:#e74c3c;cursor:pointer;font-size:20px;font-weight:700;">×</button>
-    </div>
-  `).join('');
-}
-
-function checkSetupAlert() {
-  document.getElementById('setup-alert').classList.toggle('hidden', !!STATE.url);
-}
-
-function renderAll() {
-  renderCollaboratorSelect();
-  renderClientDatalist();
-  renderClientList();
-  renderHistory();
-  renderCollabList();
-  checkSetupAlert();
-  document.getElementById('cfg-url').value = STATE.url;
-}
+function renderAll() { renderCollaboratorSelect(); renderClientDatalist(); renderClientList(); renderHistory(); }
 
 // ══════════════════════════════════════════════════════════
-// SEND TO GOOGLE SHEETS
+// ENVIO PARA GOOGLE SHEETS
 // ══════════════════════════════════════════════════════════
 async function sendToSheet(type, data) {
-  if (!STATE.url) return; // silently skip if not configured
-  
+  if (!SCRIPT_URL) return;
   try {
-    const payload = { type, ...data, timestamp: new Date().toISOString() };
-    await fetch(STATE.url, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    });
-  } catch (err) {
-    console.error('Erro ao enviar:', err);
-  }
+    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'text/plain'}, body: JSON.stringify({ type, ...data, timestamp: new Date().toISOString() }) });
+  } catch (err) { console.error('Erro ao enviar:', err); }
 }
 
 // ══════════════════════════════════════════════════════════
-// FORM VALIDATION
+// VALIDAÇÃO
 // ══════════════════════════════════════════════════════════
 function validateServiceForm() {
   const d = document.getElementById('srv-date').value;
@@ -428,8 +270,7 @@ function validateServiceForm() {
   const v = document.getElementById('srv-value').value;
   const p = document.getElementById('srv-payment').value;
   const o = document.getElementById('srv-other').value;
-  const needsOther = s === 'Outro' && !o;
-  document.getElementById('btn-submit-service').disabled = !(d && c && co && s && v && parseFloat(v) > 0 && p && !needsOther);
+  document.getElementById('btn-submit-service').disabled = !(d && c && co && s && v && parseFloat(v) > 0 && p && !(s === 'Outro' && !o));
 }
 
 function validateClientForm() {
@@ -438,23 +279,19 @@ function validateClientForm() {
   document.getElementById('btn-submit-client').disabled = !(n && p);
 }
 
-// Watch all form fields
 ['srv-date','srv-client','srv-collaborator','srv-service','srv-value','srv-payment','srv-other'].forEach(id => {
   document.getElementById(id).addEventListener('input', validateServiceForm);
   document.getElementById(id).addEventListener('change', validateServiceForm);
 });
-['cli-name','cli-phone'].forEach(id => {
-  document.getElementById(id).addEventListener('input', validateClientForm);
-});
+['cli-name','cli-phone'].forEach(id => { document.getElementById(id).addEventListener('input', validateClientForm); });
 
-// Show/hide "Outro" field
 document.getElementById('srv-service').addEventListener('change', function() {
   document.getElementById('other-service-field').classList.toggle('hidden', this.value !== 'Outro');
   validateServiceForm();
 });
 
 // ══════════════════════════════════════════════════════════
-// SUBMIT SERVICE
+// SUBMIT SERVIÇO
 // ══════════════════════════════════════════════════════════
 document.getElementById('btn-submit-service').addEventListener('click', function() {
   const service = document.getElementById('srv-service').value;
@@ -467,14 +304,8 @@ document.getElementById('btn-submit-service').addEventListener('click', function
     value: parseFloat(document.getElementById('srv-value').value),
     payment: document.getElementById('srv-payment').value,
   };
-
-  STATE.services.push(entry);
-  save(KEYS.services, STATE.services);
-  sendToSheet('servico', entry);
-
+  STATE.services.push(entry); save('salon_services', STATE.services); sendToSheet('servico', entry);
   showToast(`Lançado — ${formatCurrency(entry.value)}`);
-
-  // Reset form (keep date)
   document.getElementById('srv-client').value = '';
   document.getElementById('srv-collaborator').value = '';
   document.getElementById('srv-service').value = '';
@@ -482,93 +313,18 @@ document.getElementById('btn-submit-service').addEventListener('click', function
   document.getElementById('srv-value').value = '';
   document.getElementById('srv-payment').value = '';
   document.getElementById('other-service-field').classList.add('hidden');
-  validateServiceForm();
-  renderHistory();
-  renderClientDatalist();
+  validateServiceForm(); renderHistory(); renderClientDatalist();
 });
 
 // ══════════════════════════════════════════════════════════
-// SUBMIT CLIENT
+// SUBMIT CLIENTE
 // ══════════════════════════════════════════════════════════
 document.getElementById('btn-submit-client').addEventListener('click', function() {
-  const entry = {
-    id: Date.now().toString(36),
-    name: document.getElementById('cli-name').value.trim(),
-    phone: document.getElementById('cli-phone').value.trim(),
-    createdAt: todayStr()
-  };
-
-  STATE.clients.push(entry);
-  save(KEYS.clients, STATE.clients);
-  sendToSheet('cliente', entry);
-
+  const entry = { id: Date.now().toString(36), name: document.getElementById('cli-name').value.trim(), phone: document.getElementById('cli-phone').value.trim(), createdAt: todayStr() };
+  STATE.clients.push(entry); save('salon_clients', STATE.clients); sendToSheet('cliente', entry);
   showToast(`${entry.name} cadastrado(a)!`);
-
-  document.getElementById('cli-name').value = '';
-  document.getElementById('cli-phone').value = '';
-  validateClientForm();
-  renderClientList();
-  renderClientDatalist();
-});
-
-// ══════════════════════════════════════════════════════════
-// CONFIG
-// ══════════════════════════════════════════════════════════
-document.getElementById('btn-save-url').addEventListener('click', async function() {
-  const url = document.getElementById('cfg-url').value.trim();
-  STATE.url = url;
-  localStorage.setItem(KEYS.url, url);
-  checkSetupAlert();
-
-  const statusEl = document.getElementById('connection-status');
-  if (!url) {
-    statusEl.innerHTML = '<div class="status offline"><span class="status-dot"></span> Desconectado</div>';
-    return;
-  }
-
-  statusEl.innerHTML = '<div class="status"><span>⏳ Testando conexão...</span></div>';
-  try {
-    await fetch(url, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'text/plain'}, body: JSON.stringify({type:'teste',timestamp:new Date().toISOString()}) });
-    statusEl.innerHTML = '<div class="status online"><span class="status-dot"></span> Conectado — dados serão enviados para a planilha</div>';
-    showToast('Conexão salva!');
-  } catch {
-    statusEl.innerHTML = '<div class="status offline"><span class="status-dot"></span> Erro — verifique a URL</div>';
-  }
-});
-
-document.getElementById('btn-add-collab').addEventListener('click', function() {
-  const input = document.getElementById('cfg-new-collab');
-  const name = input.value.trim();
-  if (!name || STATE.collaborators.includes(name)) return;
-  STATE.collaborators.push(name);
-  save(KEYS.collaborators, STATE.collaborators);
-  input.value = '';
-  renderCollabList();
-  renderCollaboratorSelect();
-  showToast(`${name} adicionado(a)!`);
-});
-
-document.getElementById('cfg-new-collab').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') document.getElementById('btn-add-collab').click();
-});
-
-function removeCollab(index) {
-  const name = STATE.collaborators[index];
-  STATE.collaborators.splice(index, 1);
-  save(KEYS.collaborators, STATE.collaborators);
-  renderCollabList();
-  renderCollaboratorSelect();
-  showToast(`${name} removido(a)`);
-}
-
-document.getElementById('btn-reset').addEventListener('click', function() {
-  if (!confirm('Tem certeza? Isso apaga clientes e lançamentos deste aparelho.')) return;
-  STATE.clients = [];
-  STATE.services = [];
-  save(KEYS.clients, []);
-  save(KEYS.services, []);
-  renderAll();
-  showToast('Dados locais apagados');
+  document.getElementById('cli-name').value = ''; document.getElementById('cli-phone').value = '';
+  validateClientForm(); renderClientList(); renderClientDatalist();
 });
 
 // ══════════════════════════════════════════════════════════
